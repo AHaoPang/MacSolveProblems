@@ -23,6 +23,17 @@ namespace ForSolveProblem
 
         public int FlipLights(int n, int m)
         {
+            n = Math.Min(3, n);
+
+            if (m == 0) return 1;
+            if (m == 1) return n == 1 ? 2 : n == 2 ? 3 : 4;
+            if (m == 2) return n == 1 ? 2 : n == 2 ? 4 : 7;
+
+            return n == 1 ? 2 : n == 2 ? 4 : 8;
+        }
+
+        public int FlipLights1(int n, int m)
+        {
             /*
              * n 个灯泡，在 m 轮开关操作以后，会有多少种亮灯和灭灯的可能性
              * 思路：
@@ -35,7 +46,7 @@ namespace ForSolveProblem
              * 空间复杂度：O(n^2)
              */
 
-            n = n > 6 ? 6 : n;
+            n = n > 3 ? 3 : n;
             var intArray = Enumerable.Repeat(1, n).ToArray();
             var hashSetResult = new HashSet<string>();
             var memoryResult = new HashSet<string>();
@@ -50,6 +61,8 @@ namespace ForSolveProblem
         /// </summary>
         private void BackTrack(int[] intArray, int curTime, int m, ISet<string> sets, ISet<string> memorySets)
         {
+            if (sets.Count == 8) return;
+
             if (m == curTime)
             {
                 sets.Add(string.Join(',', intArray));
