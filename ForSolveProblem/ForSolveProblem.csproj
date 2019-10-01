@@ -8,4 +8,16 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Problem000_099\" />
+    <Folder Include="Problem100_199\" />
+    <Folder Include="Problem200_299\" />
+    <Folder Include="Problem300_399\" />
+    <Folder Include="Problem400_499\" />
+    <Folder Include="Problem500_599\" />
+    <Folder Include="Problem600_699\" />
+    <Folder Include="Problem700_799\" />
+    <Folder Include="Problem800_899\" />
+    <Folder Include="Problem900_999\" />
+  </ItemGroup>
 </Project>
