@@ -15,11 +15,13 @@ namespace ForSolveProblem
              *  1. 从题目中能看出按照个数分组的情况,那么我们从一开始就应该知道各个分组的情况,然后再尝试动态改变分组内的元素
              *  2. 统计整个数组的分组情况
              *  3. 开始判断
-             *      3.1 仅有一个分组,那么整个数组的长度即为解;
+             *      3.1 仅有一个分组
+             *          3.1.1 组内元素个数均为1 满足条件
+             *          3.1.2 组件仅1个元素 满足条件
              *      3.2 有多个分组,就依次缩小前缀数组,并作出如下判断
-             *          3.2.1 如果仅剩下两个分组,那么查看组内元素个数为 1 个的分组,减去他
-             *              3.2.1.1 key-1 == 0 return true;
-             *              3.2.1.2 key-1 == 另一个 key return true;
+             *          3.2.1 如果仅剩下两个分组,那么查看组内元素个数为 1 个的分组
+             *              3.2.1.1 key-1 == 0 满足条件;
+             *              3.2.1.2 key-1 == 另一个 key 满足条件;
              *              3.2.1.3 其它情况下,则需要继续缩减前缀数组的长度了
              *
              * 关键点：
@@ -35,8 +37,8 @@ namespace ForSolveProblem
             var numGroupByCount = numCount.GroupBy(i => i.Value, j => j.Key).ToDictionary(i => i.Key, j => j.ToHashSet());
 
             //特殊条件判断
-            if (numGroupByCount.Count == 1 && numGroupByCount.First().Value.Count == 1) return nums.Length;
-            if (numGroupByCount.Count == 1 && numGroupByCount.First().Key - 1 == 0) return nums.Length;
+            if (numGroupByCount.Count == 1 && numGroupByCount.First().Value.Count == 1) return nums.Length; //3.1.2 组件仅1个元素 满足条件
+            if (numGroupByCount.Count == 1 && numGroupByCount.First().Key - 1 == 0) return nums.Length; //3.1.1 组内元素个数均为1 满足条件
 
             //循环前的判断
             var firstVerify = GroupVerify(numGroupByCount);
