@@ -6,36 +6,64 @@ namespace ForSolveProblem
 {
     public class Problem5224 : IProblem
     {
-        public class calcEntity
+        /// <summary>
+        /// 计算实体
+        /// </summary>
+        public class CalcEntity
         {
-            public calcEntity(long lastNum)
+            public CalcEntity(long initValue)
             {
-                this.totalNum = lastNum;
+                this.totalNum = initValue;
                 queueMem = new Queue<long>();
-                queueMem.Enqueue(lastNum);
+                queueMem.Enqueue(initValue);
             }
 
+            /// <summary>
+            /// 当前总和
+            /// </summary>
             public long totalNum;
 
+            /// <summary>
+            /// 新加入的数值
+            /// </summary>
             public long newNum;
 
+            /// <summary>
+            /// 刚退出的数值
+            /// </summary>
             public long subNum;
 
+            /// <summary>
+            /// 当前全部在队的数值
+            /// </summary>
             public Queue<long> queueMem;
         }
 
         public int DieSimulator(int n, int[] rollMax)
         {
+            /*
+             * 想象成一个快递排队的过程,具体过程如下
+             * 1.一共有6个队伍可以放快递
+             * 2.第1轮每个队伍放1个快递
+             * 3.下一轮,当前队伍上放的快递,一定是拷贝自其它队伍,然后再打包得来的
+             * 4.不同的队伍,长度不同,当超长时,最先入队伍的快递是要被拿掉的
+             * 
+             * 时间复杂度:O(n*6*6)
+             * 空间复杂度:O(1)
+             */
+
             var constNum = unchecked((int)(1E9 + 7));
 
-            var numQueueArray = new List<calcEntity>();
+            var numQueueArray = new List<CalcEntity>();
             for (int i = 0; i < 6; i++)
-                numQueueArray.Add(new calcEntity(1));
+                numQueueArray.Add(new CalcEntity(1));
 
             for (int i = 1; i < n; i++)
             {
+                //最新一轮的更新
                 for (int a = 0; a < 6; a++)
                 {
+                    //新加入的数字
                     var sumTemp = 0L;
                     for (int b = 0; b < 6; b++)
                     {
@@ -48,6 +76,7 @@ namespace ForSolveProblem
                     numQueueArray[a].queueMem.Enqueue(sumTemp);
                     numQueueArray[a].newNum = sumTemp;
 
+                    //退出的数字
                     if (numQueueArray[a].queueMem.Count > rollMax[a])
                     {
                         var v = numQueueArray[a].queueMem.Dequeue();
@@ -55,6 +84,7 @@ namespace ForSolveProblem
                     }
                 }
 
+                //对本轮的结果做更新
                 for (int c = 0; c < 6; c++)
                 {
                     numQueueArray[c].totalNum += numQueueArray[c].newNum;
