@@ -6,7 +6,7 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            var p = new Problem5239();
+            var p = new Problem5250();
             p.RunProblem();
         }
     }
