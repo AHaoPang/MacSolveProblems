@@ -16,7 +16,7 @@ namespace ForSolveProblem
         public IList<int> CountSmaller(int[] nums)
         {
             /*
-             * 问题:计算大于当前索引位置上,比当前数大的元素的个数
+             * 问题:计算大于当前索引位置上,比当前数小的元素的个数
              * 思路:
              *  1.构造一颗线段树,树的节点包含如下属性
              *      1.1 节点表示的数值大小范围
@@ -58,6 +58,9 @@ namespace ForSolveProblem
             return forReturn;
         }
 
+        /// <summary>
+        /// 线段树节点
+        /// </summary>
         class SegmentTreeNode
         {
             public int[] m_NumRange { get; set; }
@@ -69,6 +72,9 @@ namespace ForSolveProblem
             public SegmentTreeNode m_RightRange { get; set; }
         }
 
+        /// <summary>
+        /// 线段树
+        /// </summary>
         class SegmentTree
         {
             private SegmentTreeNode m_Root;
