@@ -30,6 +30,37 @@ namespace ForSolveProblem
 
         public bool IsBipartite(int[][] graph)
         {
+            var pointArray = new int[graph.Length];
+            for (int i = 0; i < graph.Length; i++)
+            {
+                if (pointArray[i] != 0) continue;
+
+                var result = Dfs(graph, pointArray, i, 1);
+                if (!result) return false;
+            }
+
+            return true;
+        }
+
+        private bool Dfs(int[][] graph, int[] pointArray, int i, int value)
+        {
+            pointArray[i] = value;
+
+            var nextPoints = graph[i];
+            foreach (var j in nextPoints)
+            {
+                if (pointArray[i] == pointArray[j]) return false;
+                if (pointArray[j] != 0) continue;
+
+                var result = Dfs(graph, pointArray, j, -1 * value);
+                if (!result) return false;
+            }
+
+            return true;
+        }
+
+        public bool IsBipartite1(int[][] graph)
+        {
             /*
              * 问题:判断邻接表所表示的图,是否是二分图
              * 思路:
