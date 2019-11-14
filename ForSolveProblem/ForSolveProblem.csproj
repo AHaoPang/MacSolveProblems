@@ -10,7 +10,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Problem000_099\" />
-    <Folder Include="Problem300_399\" />
     <Folder Include="Problem900_999\" />
   </ItemGroup>
 </Project>
