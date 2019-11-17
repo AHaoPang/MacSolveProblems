@@ -10,6 +10,33 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
+            List<string> listTemp = new List<string>()
+            {
+                "A",
+                "a",
+                "C",
+                "c"
+            };
+
+            listTemp.Sort((w1, w2) =>
+            {
+                var c1 = w1.First();
+                var c2 = w2.First();
+
+                return c1 == c2 ? 0 :
+                        c1 > c2 ? 1 :
+                        -1;
+            });
+
+            listTemp.Sort();
+
+            listTemp.Sort(StringComparer.Ordinal);
+            listTemp.Sort(StringComparer.OrdinalIgnoreCase);
+
+            var list2 = listTemp.OrderBy(i => i).ToList();
+
+            var list3 = listTemp.OrderBy(i => i, StringComparer.Ordinal);
+
             var temp = GenerateSentences(new List<IList<string>>()
             {
                 new List<string>(){"happy","joy"},
@@ -17,7 +44,7 @@ namespace ForSolveProblem
                 new List<string>(){"joy","cheerful"},
             }, "I am happy today but was sad yesterday");
 
-            temp = GenerateSentences(new List<IList<string>>()
+            var temp2 = GenerateSentences(new List<IList<string>>()
             {
                 new List<string>(){"a","QrbCl"},
             }, "d QrbCl ya ya NjZQ");
@@ -25,8 +52,6 @@ namespace ForSolveProblem
 
         public IList<string> GenerateSentences(IList<IList<string>> synonyms, string text)
         {
-            var textSplitArray = text.Split(' ');
-
             var synList = new List<ISet<string>>();
             foreach (var synItem in synonyms)
             {
@@ -51,7 +76,7 @@ namespace ForSolveProblem
                 synList.Add(new HashSet<string>() { firstWord, secondWord });
             }
 
-            Recursion(textSplitArray, 0, synList);
+            Recursion(text.Split(' '), 0, synList);
 
             return m_forReturn;
         }
