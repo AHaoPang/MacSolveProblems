@@ -30,6 +30,30 @@ namespace ForSolveProblem
 
         public int MaxSumDivThree(int[] nums)
         {
+            var modNum = 3;
+            var dp = new int[nums.Length, modNum];
+            dp[0, nums[0] % modNum] = nums[0];
+
+            for (int i = 1; i < nums.Length; i++)
+            {
+                var curNum = nums[i];
+                var curMod = curNum % modNum;
+
+                for (int j = 0; j < modNum; j++)
+                {
+                    dp[i, j] = dp[i - 1, j];
+
+                    var another = (modNum + j - curMod) % 3;
+                    if ((dp[i - 1, another] + curNum) % 3 == j)
+                        dp[i, j] = Math.Max(dp[i, j], dp[i - 1, another] + curNum);
+                }
+            }
+
+            return dp[nums.Length - 1, 0];
+        }
+
+        public int MaxSumDivThree1(int[] nums)
+        {
             var sumTemp = 0;
             var oneMinNums = new int[2] { -1, -1 };
             var twoMinNums = new int[2] { -1, -1 };
@@ -52,7 +76,7 @@ namespace ForSolveProblem
             }
 
             if (sumTemp % 3 == 0) return sumTemp;
-            
+
             var subvalue = -1;
             if (sumTemp % 3 == 1)
             {
