@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ForSolveProblem
 {
@@ -6,7 +8,7 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            var p = new Problem5265();
+            var p = new ProblemHelperTest();
             p.RunProblem();
         }
     }

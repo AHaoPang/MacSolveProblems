@@ -21,9 +21,9 @@ namespace ForSolveProblem
         private bool m_isBigFirst;
         #endregion
 
-        public PriorityQueue(bool isBigFirst)
+        public PriorityQueue(bool isBigFirst, int capacity = 64)
         {
-            m_innerList = new List<T>() { default(T) };
+            m_innerList = new List<T>(capacity) { default(T) };
             m_isBigFirst = isBigFirst;
         }
 
@@ -35,7 +35,7 @@ namespace ForSolveProblem
             DownToUp(m_innerList, curIndex);
         }
 
-        public bool HasData() => m_innerList.Count >= 2;
+        public bool HasData() => m_innerList.Count > 1;
 
         public T GetData()
         {
@@ -69,12 +69,14 @@ namespace ForSolveProblem
             if (sonRightIndex <= innerList.Count - 1) sonRight = innerList[sonRightIndex];
 
             var compareResult = CompareAndReturnPriority(sonLeft, sonRight);
-            if (IsMove(cur, compareResult))
+            if (Equals(compareResult, default(T))) return;
+
+            if (IsMove(compareResult, cur))
             {
                 var moveIndex = -1;
-                if (ReferenceEquals(compareResult, sonLeft))
+                if (Equals(sonLeft, compareResult))
                     moveIndex = sonLeftIndex;
-                else if (ReferenceEquals(compareResult, sonRight))
+                else if (Equals(sonRight, compareResult))
                     moveIndex = sonRightIndex;
 
                 if (moveIndex != -1)
@@ -111,7 +113,7 @@ namespace ForSolveProblem
         }
 
         /// <summary>
-        /// 判断是否有交换源和目标的位置
+        /// 判断是否要交换源和目标的位置
         /// </summary>
         private bool IsMove(T sourcePos, T targetPos)
         {
@@ -128,6 +130,10 @@ namespace ForSolveProblem
         /// </summary>
         private T CompareAndReturnPriority(T oneT, T secondT)
         {
+            var defaultValue = default(T);
+            if (Equals(oneT, defaultValue) || Equals(secondT, defaultValue))
+                return Equals(oneT, defaultValue) ? secondT : oneT;
+
             var compareResult = oneT.CompareTo(secondT);
 
             if (m_isBigFirst) return compareResult > 0 ? oneT : secondT;
