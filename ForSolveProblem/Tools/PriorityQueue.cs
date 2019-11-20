@@ -6,8 +6,21 @@ namespace ForSolveProblem
 {
     /// <summary>
     /// 优先级队列
+    /// 
+    /// 使用说明:
+    /// 1.内部使用了IList来存储数据,所以是支持动态扩容的
+    /// 2.可以指定大的值优先,还是小的值优先
+    /// 3.存储的数据应该是可以比较的,值类型或者引用类型都是可以的
+    /// 
+    /// 对外保留3个接口:
+    /// 1.AddData 为优先级队列添加数据
+    /// 2.HasData 判断队列中是否有数据
+    /// 3.GetData 若队列中有数据,则返回优先级最大的那个数据
+    /// 
+    /// 优化思路,考虑使用系统提供的比较器,不然自己去判断Equal就太累了
+    /// 
     /// </summary>
-    public class PriorityQueue<T> where T : IComparable<T>
+    public class PriorityQueue<T>
     {
         #region private fields
         /// <summary>
@@ -19,14 +32,23 @@ namespace ForSolveProblem
         /// 大的优先,还是小的优先
         /// </summary>
         private bool m_isBigFirst;
+
+        /// <summary>
+        /// 比较器
+        /// </summary>
+        private IComparer<T> m_innerComparer;
         #endregion
 
-        public PriorityQueue(bool isBigFirst, int capacity = 64)
+        public PriorityQueue(bool isBigFirst, int capacity = 64, IComparer<T> comparer = null)
         {
+            m_innerComparer = comparer == null ? Comparer<T>.Default : comparer;
             m_innerList = new List<T>(capacity) { default(T) };
             m_isBigFirst = isBigFirst;
         }
 
+        /// <summary>
+        /// 添加数据
+        /// </summary>
         public void AddData(T t)
         {
             m_innerList.Add(t);
@@ -35,16 +57,23 @@ namespace ForSolveProblem
             DownToUp(m_innerList, curIndex);
         }
 
+        /// <summary>
+        /// 判断是否有数据
+        /// </summary>
         public bool HasData() => m_innerList.Count > 1;
 
+        /// <summary>
+        /// 获取数据
+        /// </summary>
         public T GetData()
         {
-            if (m_innerList.Count < 2) return default(T);
+            if (m_innerList.Count < 2) throw new OverflowException("PriorityQueue empty");
 
             var forReturn = m_innerList[1];
 
-            m_innerList[1] = m_innerList[m_innerList.Count - 1];
-            m_innerList.RemoveAt(m_innerList.Count - 1);
+            var lastIndex = m_innerList.Count - 1;
+            m_innerList[1] = m_innerList[lastIndex];
+            m_innerList.RemoveAt(lastIndex);
             UpToDown(m_innerList, 1);
 
             return forReturn;
@@ -61,28 +90,44 @@ namespace ForSolveProblem
             var cur = innerList[curIndex];
 
             var sonLeft = default(T);
+            var hasSonLeft = false;
             var sonLeftIndex = curIndex * 2;
-            if (sonLeftIndex <= innerList.Count - 1) sonLeft = innerList[sonLeftIndex];
+            if (sonLeftIndex <= innerList.Count - 1)
+            {
+                hasSonLeft = true;
+                sonLeft = innerList[sonLeftIndex];
+            }
 
             var sonRight = default(T);
+            var hasSonRight = false;
             var sonRightIndex = curIndex * 2 + 1;
-            if (sonRightIndex <= innerList.Count - 1) sonRight = innerList[sonRightIndex];
-
-            var compareResult = CompareAndReturnPriority(sonLeft, sonRight);
-            if (Equals(compareResult, default(T))) return;
-
-            if (IsMove(compareResult, cur))
+            if (sonRightIndex <= innerList.Count - 1)
             {
-                var moveIndex = -1;
-                if (Equals(sonLeft, compareResult))
-                    moveIndex = sonLeftIndex;
-                else if (Equals(sonRight, compareResult))
-                    moveIndex = sonRightIndex;
+                hasSonRight = true;
+                sonRight = innerList[sonRightIndex];
+            }
 
-                if (moveIndex != -1)
+            if (hasSonLeft || hasSonRight)
+            {
+                var tempIndex = -1;
+
+                if (hasSonLeft && hasSonRight)
                 {
-                    Swap(innerList, moveIndex, curIndex);
-                    UpToDown(innerList, moveIndex);
+                    var compareResult = IsMove(sonLeft, sonRight);
+                    if (compareResult && IsMove(sonLeft, cur))
+                        tempIndex = sonLeftIndex;
+                    else if (!compareResult && IsMove(sonRight, cur))
+                        tempIndex = sonRightIndex;
+                }
+                else if (hasSonLeft && IsMove(sonLeft, cur))
+                    tempIndex = sonLeftIndex;
+                else if (hasSonRight && IsMove(sonRight, cur))
+                    tempIndex = sonRightIndex;
+
+                if (tempIndex != -1)
+                {
+                    Swap(innerList, tempIndex, curIndex);
+                    UpToDown(innerList, tempIndex);
                 }
             }
         }
@@ -117,28 +162,12 @@ namespace ForSolveProblem
         /// </summary>
         private bool IsMove(T sourcePos, T targetPos)
         {
-            var compareResult = sourcePos.CompareTo(targetPos);
+            var compareResult = m_innerComparer.Compare(sourcePos, targetPos);
 
             if (m_isBigFirst && compareResult > 0) return true;
             if (!m_isBigFirst && compareResult < 0) return true;
 
             return false;
-        }
-
-        /// <summary>
-        /// 比较并返回优先级大的那个对象
-        /// </summary>
-        private T CompareAndReturnPriority(T oneT, T secondT)
-        {
-            var defaultValue = default(T);
-            if (Equals(oneT, defaultValue) || Equals(secondT, defaultValue))
-                return Equals(oneT, defaultValue) ? secondT : oneT;
-
-            var compareResult = oneT.CompareTo(secondT);
-
-            if (m_isBigFirst) return compareResult > 0 ? oneT : secondT;
-
-            return compareResult < 0 ? oneT : secondT;
         }
         #endregion
     }

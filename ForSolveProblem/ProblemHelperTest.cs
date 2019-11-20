@@ -15,8 +15,8 @@ namespace ForSolveProblem
         #region PriorityQueue
         private void PriorityQueueTest()
         {
-            var numArray = new int[] { 23, 1, 356, 3, 56, 63, 3, 6, 0 };
-            var pq = new PriorityQueue<int>(true);
+            var numArray = new int[] { 23, 1, 0, 356, 3, 56, 63, 3, 6, 0 };
+            var pq = new PriorityQueue<int>(false);
 
             foreach (var numItem in numArray)
                 pq.AddData(numItem);
@@ -28,11 +28,12 @@ namespace ForSolveProblem
             {
                 new TestEntity(3,"3"),
                 new TestEntity(5,"5"),
+                null,
                 new TestEntity(23,"23"),
                 new TestEntity(36,"36"),
                 new TestEntity(1,"1"),
             };
-            var pqEntity = new PriorityQueue<TestEntity>(true);
+            var pqEntity = new PriorityQueue<TestEntity>(false);
             foreach (var entityItem in entityList)
                 pqEntity.AddData(entityItem);
 
@@ -59,7 +60,7 @@ namespace ForSolveProblem
 
                 return 0;
             }
-        } 
+        }
         #endregion
     }
 }
