@@ -9,28 +9,6 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            var hashSetTemp = new HashSet<CurStatus>();
-            hashSetTemp.Add(new CurStatus()
-            {
-                CurSteps = 0,
-                BoxCol = 1,
-                BoxRow = 1,
-                PersonCol = 2,
-                PersonRow = 2
-            });
-
-            if (hashSetTemp.Contains(new CurStatus()
-            {
-                CurSteps = 0,
-                BoxCol = 1,
-                BoxRow = 1,
-                PersonCol = 2,
-                PersonRow = 2
-            }))
-            {
-
-            }
-
             var temp = MinPushBox(new char[][]
             {
                 new char[]{'#', '#', '#', '#', '#', '#'},
@@ -102,7 +80,7 @@ namespace ForSolveProblem
                 PersonRow = personPos[0],
                 PersonCol = personPos[1]
             };
-            var pq = new PriorityQueue<CurStatus>(false);
+            var pq = new PriorityQueue<CurStatus>(true);
             pq.AddData(initStatus);
 
             var rows = grid.Length;
@@ -192,7 +170,7 @@ namespace ForSolveProblem
 
             public override int GetHashCode()
             {
-                return CurSteps + BoxRow + BoxCol + PersonRow + PersonCol;
+                return BoxRow + BoxCol + PersonRow + PersonCol;
             }
 
             public override bool Equals(object obj)
@@ -201,7 +179,7 @@ namespace ForSolveProblem
                 {
                     var anotherStatus = obj as CurStatus;
 
-                    return anotherStatus.CurSteps == this.CurSteps &&
+                    return 
                         anotherStatus.BoxRow == this.BoxRow &&
                         anotherStatus.BoxCol == this.BoxCol &&
                         anotherStatus.PersonRow == this.PersonRow &&
