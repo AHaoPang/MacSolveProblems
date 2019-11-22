@@ -10,8 +10,6 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-
-
             var result1 = SearchRange(new int[] { 5, 7, 7, 8, 8, 10 }, 6);
             if (result1[0] != -1 || result1[1] != -1)
                 throw new Exception("wrong");
