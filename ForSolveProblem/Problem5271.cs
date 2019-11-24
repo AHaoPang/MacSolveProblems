@@ -26,6 +26,20 @@ namespace ForSolveProblem
 
         public int MinTimeToVisitAllPoints(int[][] points)
         {
+            /*
+             * 题目概述：将所有点遍历一遍,所需的时间是多少
+             * 
+             * 思路：
+             *  1.主要还是在找规律了
+             *  2.从 1 个点到另 1 个点,可以水平 垂直 斜向移动,每个移动耗时 1 秒
+             *  3.其实就是一个点与另一个点,水平位置和垂直位置,谁的边长,就是多少的耗时了
+             *
+             * 关键点：
+             *
+             * 时间复杂度：O(n)
+             * 空间复杂度：O(1)
+             */
+
             var forReturn = 0;
 
             for (int i = 0; i < points.Length - 1; i++)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ForSolveProblem
@@ -32,18 +33,78 @@ namespace ForSolveProblem
             if (temp != 4) throw new Exception();
 
             temp = CountServers(new int[][]
-{
+            {
                 new int[]{0,0,0,0},
                 new int[]{1,1,1,1},
                 new int[]{0,0,0,1},
                 new int[]{0,0,1,1},
                 new int[]{ 0, 0, 0, 1 }
-});
-            if (temp != 4) throw new Exception();
+            });
+            if (temp != 8) throw new Exception();
         }
 
         public int CountServers(int[][] grid)
         {
+            m_forReturn = 0;
+
+            for(int rowIndex = 0;rowIndex < grid.Length; rowIndex++)
+            {
+                for(int colIndex = 0;colIndex < grid[rowIndex].Length; colIndex++)
+                {
+                    if (grid[rowIndex][colIndex] != '1') continue;
+
+                    Recursion(grid, rowIndex, colIndex);
+                }
+            }
+
+            return m_forReturn;
+        }
+
+        private int m_forReturn;
+
+        private void Recursion(int[][] grid,int row,int col)
+        {
+            if (grid[row][col] != '1') return;
+
+            var sameRow = new List<int>();
+            for (int colIndex = 0; colIndex < grid[0].Length; colIndex++)
+                if (grid[row][colIndex] == '1') sameRow.Add(colIndex);
+
+            var sameCol = new List<int>();
+            for (int rowIndex = 0; rowIndex < grid.Length; rowIndex++)
+                if (grid[rowIndex][col] == '1') sameCol.Add(rowIndex);
+
+            if(sameRow.Any() || sameCol.Any())
+            {
+                m_forReturn++;
+
+                grid[row][col] = '0';
+
+                foreach (var colItem in sameRow)
+                    Recursion(grid, row, colItem);
+
+                foreach (var rowItem in sameCol)
+                    Recursion(grid, rowItem, col);
+            }
+        }
+
+        public int CountServers1(int[][] grid)
+        {
+            /*
+             * 题目概述：统计可通信服务器的数量
+             * 
+             * 思路：
+             *  1.首先遍历二维矩阵,看每一行有几台服务器,每一列有几台服务器
+             *  2.以上得到 2 个一维数组
+             *  3.分别遍历两个一维数组,如果同 1 行或者同 1 列有超过 2 台机器,那么就去统计
+             *  4.为了避免重复统计,使用了二维数组来标识
+             *
+             * 关键点：
+             *
+             * 时间复杂度： O(250*250)
+             * 空间复杂度： O(250*250)
+             */
+
             var rows = grid.Length;
             var cols = grid[0].Length;
 
@@ -56,39 +117,38 @@ namespace ForSolveProblem
                     if (grid[row][col] != 1) continue;
 
                     if (rowArray[row] == null) rowArray[row] = new List<int>();
-                    rowArray[row].Add(row);
                     rowArray[row].Add(col);
 
                     if (colArray[col] == null) colArray[col] = new List<int>();
                     colArray[col].Add(row);
-                    colArray[col].Add(col);
                 }
             }
 
             var visited = new int[rows, cols];
             var forReturn = 0;
-            foreach (var rowItem in rowArray)
+            for(var rowIndex = 0; rowIndex < rowArray.Length; rowIndex++)
             {
-                if (rowItem == null || rowItem.Count < 3) continue;
+                var curRow = rowArray[rowIndex];
+                if (curRow == null || curRow.Count == 1) continue;
 
-                for (int j = 0; j < rowItem.Count - 1; j += 2)
+                foreach(var colPos in curRow)
                 {
-                    if (visited[rowItem[j], rowItem[j + 1]] == 1) continue;
+                    if (visited[rowIndex, colPos] == 1) continue;
 
-                    visited[rowItem[j], rowItem[j + 1]] = 1;
+                    visited[rowIndex, colPos] = 1;
                     forReturn++;
                 }
             }
-
-            foreach (var colItem in colArray)
+            for(var colIndex = 0;colIndex < colArray.Length; colIndex++)
             {
-                if (colItem == null || colItem.Count < 3) continue;
+                var curCol = colArray[colIndex];
+                if (curCol == null || curCol.Count == 1) continue;
 
-                for (int j = 0; j < colItem.Count - 1; j += 2)
+                foreach(var rowPos in curCol)
                 {
-                    if (visited[colItem[j], colItem[j + 1]] == 1) continue;
+                    if (visited[rowPos, colIndex] == 1) continue;
 
-                    visited[colItem[j], colItem[j + 1]] = 1;
+                    visited[rowPos, colIndex] = 1;
                     forReturn++;
                 }
             }

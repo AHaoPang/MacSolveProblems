@@ -23,8 +23,25 @@ namespace ForSolveProblem
 
         public int NumWays(int steps, int arrLen)
         {
+            /*
+             * 题目概述：一个指针,在多轮移动操作以后,还在指定位置上的方案有多少种
+             * 
+             * 思路：
+             *  1.因为每次移动,最多移动 1 个单元格,因此最后的结果,取决于 3 个数值
+             *      1.1 上一步在 0,本次没有移动还在 0 位置
+             *      1.2 上一步在 1,本次移动 1 个位置到 0
+             *  2.使用动态规划的方式,做顺序的统计
+             *  3.状态 dp[n,2] 表示走到当前索引位置,有多少种方案
+             *      3.1 dp[n,1] = dp[n-1,0] + dp[n,0] + dp[n+1,0];
+             *
+             * 关键点：
+             *
+             * 时间复杂度：O(m*n)
+             * 空间复杂度：O(1)
+             */
+
             var modNum = (int)(1e9 + 7);
-            var lenTemp = Math.Min(steps + 1, arrLen);
+            var lenTemp = Math.Min(steps / 2 + 1, arrLen);
             var dp = new int[lenTemp, 2];
             dp[0, 0] = 1;
 
@@ -49,7 +66,6 @@ namespace ForSolveProblem
                     for (int n = 0; n < numArray.Length; n++)
                     {
                         finNum += numArray[n];
-
                         finNum %= modNum;
                     }
 
