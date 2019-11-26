@@ -11,9 +11,90 @@ namespace ForSolveProblem
         public void RunProblem()
         {
             var temp = FindSubstring("barfoothefoobarman", new string[] { "foo", "bar" });
+
+            temp = FindSubstring("wordgoodgoodgoodbestword", new string[] { "word", "good", "best", "word" });
+
+            temp = FindSubstring("", new string[] { });
         }
 
         public IList<int> FindSubstring(string s, string[] words)
+        {
+            /*
+             * 题目概述：串联所有单词的字串
+             * 
+             * 思路：
+             *  1.滑动窗口+Dictionary
+             *  2.滑动窗口的移动,一次移动一个单词的长度距离
+             *  3.一共有单词长度个滑动窗口
+             *  4.对数组索引的精确控制
+             *
+             * 关键点：
+             *  1.每个单词的长度相同
+             *  2.要得到所有的起始位置
+             *
+             * 时间复杂度：O(n*m)
+             * 空间复杂度：O(m+n)
+             */
+
+            var wordCount = words.Length;
+            if (wordCount == 0) return new List<int>();
+
+            var wordLength = words.First().Length;
+            var wordDic = new Dictionary<string, int>(wordCount);
+            foreach (var wordItem in words)
+            {
+                if (!wordDic.ContainsKey(wordItem)) wordDic[wordItem] = 0;
+                wordDic[wordItem]++;
+            }
+
+            var startPosArray = Enumerable.Range(0, wordLength);
+            var forReturn = new List<int>();
+            foreach (var startPosItem in startPosArray)
+            {
+                var startIndex = startPosItem;
+                var stopIndex = startIndex + wordCount * wordLength;
+                var composedStrHash = new Dictionary<string, int>(wordCount);
+                for (; stopIndex <= s.Length; startIndex += wordLength, stopIndex += wordLength)
+                {
+                    if (startIndex < wordLength)
+                    {
+                        for (int firstIndex = startIndex; firstIndex <= stopIndex - wordLength; firstIndex += wordLength)
+                        {
+                            var curStr = new string(s.Skip(firstIndex).Take(wordLength).ToArray());
+                            if (!composedStrHash.ContainsKey(curStr)) composedStrHash[curStr] = 0;
+                            composedStrHash[curStr]++;
+                        }
+                    }
+                    else
+                    {
+                        var delStr = new string(s.Skip(startIndex - wordLength).Take(wordLength).ToArray());
+                        var addStr = new string(s.Skip(stopIndex - wordLength).Take(wordLength).ToArray());
+
+                        composedStrHash[delStr]--;
+                        if (composedStrHash[delStr] == 0) composedStrHash.Remove(delStr);
+
+                        if (!composedStrHash.ContainsKey(addStr)) composedStrHash[addStr] = 0;
+                        composedStrHash[addStr]++;
+                    }
+
+                    if (VerifySame(wordDic, composedStrHash)) forReturn.Add(startIndex);
+                }
+            }
+
+            return forReturn;
+        }
+
+        private bool VerifySame(IDictionary<string, int> dic1, IDictionary<string, int> dic2)
+        {
+            if (dic1.Count != dic2.Count) return false;
+
+            foreach (var dic1Item in dic1)
+                if (!dic2.ContainsKey(dic1Item.Key) || dic2[dic1Item.Key] != dic1Item.Value) return false;
+
+            return true;
+        }
+
+        public IList<int> FindSubstring1(string s, string[] words)
         {
             if (words.Length == 0 || s.Length == 0) return new List<int>();
 
