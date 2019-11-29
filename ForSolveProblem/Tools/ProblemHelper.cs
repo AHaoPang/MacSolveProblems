@@ -16,7 +16,7 @@ namespace ForSolveProblem
         /// </summary>
         public static bool ArrayIsEqual<T>(T[] arr1, T[] arr2, bool needOrder = true)
         {
-            if (arr1.Length != arr1.Length) return false;
+            if (arr1.Length != arr2.Length) return false;
 
             var arr1Temp = needOrder ? arr1.OrderBy(i => i).ToArray() : arr1;
             var arr2Temp = needOrder ? arr2.OrderBy(i => i).ToArray() : arr2;
