@@ -23,8 +23,6 @@ namespace ForSolveProblem
             var count = 1;
             for (int i = curNode; i < nodes; i++)
             {
-                if (parent[i] > curNode) break;
-
                 if (parent[i] == curNode)
                 {
                     var v1 = Recursion(nodes, i, parent, value);

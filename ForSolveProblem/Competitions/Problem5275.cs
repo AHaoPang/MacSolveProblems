@@ -91,20 +91,7 @@ namespace ForSolveProblem
                 winNum = QiPan[1, 1];
             if (winNum != 0) return winNum == 1 ? "A" : "B";
 
-            var hasBlank = false;
-            for(int i = 0;i < 3; i++)
-            {
-                for(int j = 0;j < 3; j++)
-                {
-                    if(QiPan[i,j] == 0)
-                    {
-                        hasBlank = true;
-                        break;
-                    }
-                }
-            }
-
-            return hasBlank ? "Pending" : "Draw";
+            return moves.Length != 9 ? "Pending" : "Draw";
         }
     }
 }

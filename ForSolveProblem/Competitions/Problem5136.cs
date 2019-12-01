@@ -3,8 +3,6 @@ namespace ForSolveProblem
 {
     public class Problem5136 : IProblem
     {
-
-
         public void RunProblem()
         {
             throw new NotImplementedException();

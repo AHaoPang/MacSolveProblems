@@ -34,21 +34,37 @@ namespace ForSolveProblem
                 var leftPoint = intervals[i][0];
                 var rightPoint = intervals[i][1];
 
+                //不相交
                 if (rightPoint <= leftDel || leftPoint >= rightDel)
-                    forReturn.Add(new List<int>() { leftPoint, rightPoint });
-                else
                 {
-                    if (leftPoint >= leftDel && rightPoint <= rightDel) continue;
+                    forReturn.Add(new List<int>() { leftPoint, rightPoint });
+                    continue;
+                }
 
-                    if (leftPoint < leftDel && rightPoint > rightDel)
-                    {
-                        forReturn.Add(new List<int>() { leftPoint, leftDel });
-                        forReturn.Add(new List<int>() { rightDel, rightPoint });
-                    }
-                    else if (leftPoint < leftDel && rightPoint > leftDel)
-                        forReturn.Add(new List<int>() { leftPoint, leftDel });
-                    else if (rightPoint > rightDel && leftPoint < rightDel)
-                        forReturn.Add(new List<int>() { rightDel, rightPoint });
+                //被包含
+                if (leftPoint >= leftDel && rightPoint <= rightDel)
+                    continue;
+
+                //包含
+                if (leftPoint < leftDel && rightPoint > rightDel)
+                {
+                    forReturn.Add(new List<int>() { leftPoint, leftDel });
+                    forReturn.Add(new List<int>() { rightDel, rightPoint });
+                    continue;
+                }
+
+                //左相交
+                if (leftPoint < leftDel && rightPoint > leftDel)
+                {
+                    forReturn.Add(new List<int>() { leftPoint, leftDel });
+                    continue;
+                }
+
+                //右相交
+                if (rightPoint > rightDel && leftPoint < rightDel)
+                {
+                    forReturn.Add(new List<int>() { rightDel, rightPoint });
+                    continue;
                 }
             }
 

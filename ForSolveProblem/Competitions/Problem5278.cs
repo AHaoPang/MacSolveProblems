@@ -32,12 +32,6 @@ namespace ForSolveProblem
             var str = $"{startIndex}_{stopIndex}_{k}";
             if (m_cache.ContainsKey(str)) return m_cache[str];
 
-            if (startIndex == stopIndex)
-            {
-                m_cache[str] = 0;
-                return 0;
-            }
-
             if (k == 1)
             {
                 var count = 0;
