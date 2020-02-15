@@ -94,16 +94,12 @@ namespace ForSolveProblem
             };
             s = new Solution(temp);
 
-            var isWrong = false;
             int i = 0;
             for (; i < 100000; i++)
             {
                 t = s.Pick();
                 if (!IsRight(temp, t))
-                {
-                    isWrong = true;
                     break;
-                }
             }
 
 

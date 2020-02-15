@@ -20,6 +20,32 @@ namespace ForSolveProblem
             if (temp != true) throw new Exception();
         }
 
+        public bool CheckSubarraySum1(int[] nums, int k)
+        {
+            if (k == 0)
+            {
+                for (int i = 0; i < nums.Length - 1; i++)
+                    if (nums[i] == 0 && nums[i + 1] == 0)
+                        return true;
+
+                return false;
+            }
+
+            var modSet = new HashSet<int>();
+            var sumTemp = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                sumTemp += nums[i];
+
+                var modValue = sumTemp % k;
+                if (modSet.Contains(modValue)) return true;
+
+                modSet.Add(modValue);
+            }
+
+            return false;
+        }
+
         public bool CheckSubarraySum(int[] nums, int k)
         {
             /*
@@ -35,7 +61,7 @@ namespace ForSolveProblem
             var indexArray = new Dictionary<int, int>() { { 0, -1 } };
 
             var sumTemp = 0;
-            for(int i = 0;i < nums.Length; i++)
+            for (int i = 0; i < nums.Length; i++)
             {
                 sumTemp += nums[i];
 
@@ -43,7 +69,7 @@ namespace ForSolveProblem
                 if (k != 0) indexTemp = sumTemp % k;
 
                 if (!indexArray.ContainsKey(indexTemp)) indexArray[indexTemp] = i;
-                else if(i - indexArray[indexTemp] > 1) return true;
+                else if (i - indexArray[indexTemp] > 1) return true;
             }
 
             return false;
