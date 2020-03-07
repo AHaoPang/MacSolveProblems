@@ -12,5 +12,6 @@
     <Folder Include="Problem000_099\" />
     <Folder Include="Problem900_999\" />
     <Folder Include="Interview\" />
+    <Folder Include="Exam\" />
   </ItemGroup>
 </Project>

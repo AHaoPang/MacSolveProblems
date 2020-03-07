@@ -26,5 +26,26 @@ namespace ForSolveProblem
 
             return true;
         }
+
+        /// <summary>
+        /// 为字符串构造 next 数组
+        /// 此数组是配合 KMP 算法来使用的,数组的索引和值,都表示字符串中对应字符的数组下标
+        /// 使用了 DP 的算法原理,即后面的值是基于前面的值计算得到的
+        /// </summary>
+        private static int[] GetKMPNextArray(string s)
+        {
+            var forReturn = Enumerable.Repeat(-1, s.Length).ToArray();
+            for (var i = 1; i < s.Length; i++)
+            {
+                var j = forReturn[i - 1];
+                while (j >= 0 && s[j + 1] != s[i])
+                    j = forReturn[j];
+
+                if (s[j + 1] == s[i])
+                    forReturn[i] = j + 1;
+            }
+
+            return forReturn;
+        }
     }
 }
