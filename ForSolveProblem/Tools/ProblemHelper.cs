@@ -32,7 +32,7 @@ namespace ForSolveProblem
         /// 此数组是配合 KMP 算法来使用的,数组的索引和值,都表示字符串中对应字符的数组下标
         /// 使用了 DP 的算法原理,即后面的值是基于前面的值计算得到的
         /// </summary>
-        private static int[] GetKMPNextArray(string s)
+        public static int[] GetKMPNextArray(string s)
         {
             var forReturn = Enumerable.Repeat(-1, s.Length).ToArray();
             for (var i = 1; i < s.Length; i++)
@@ -46,6 +46,58 @@ namespace ForSolveProblem
             }
 
             return forReturn;
+        }
+
+        /// <summary>
+        /// 将给定的数组转化为二叉树结构
+        /// </summary>
+        public static TreeNode MadeTree(int?[] numArray, int index)
+        {
+            var curIndex = index - 1;
+            if (curIndex >= numArray.Length || !numArray[curIndex].HasValue)
+                return null;
+
+            return new TreeNode(numArray[curIndex].Value)
+            {
+                left = MadeTree(numArray, index * 2),
+                right = MadeTree(numArray, index * 2 + 1)
+            };
+        }
+
+        /// <summary>
+        /// 将给定的数组转化为二叉树结构
+        /// </summary>
+        public static TreeNode MadeTreeV2(int?[] numArray)
+        {
+            if (!numArray.Any()) return null;
+
+            var startIndex = 0;
+            var root = new TreeNode(numArray[startIndex++].Value);
+
+            var queueTemp = new Queue<TreeNode>();
+            queueTemp.Enqueue(root);
+            while (startIndex < numArray.Length)
+            {
+                var curNode = queueTemp.Dequeue();
+
+                int? leftNode = numArray[startIndex++];
+                if (leftNode.HasValue)
+                {
+                    curNode.left = new TreeNode(leftNode.Value);
+                    queueTemp.Enqueue(curNode.left);
+                }
+
+                if (startIndex >= numArray.Length) break;
+
+                int? rightNode = numArray[startIndex++];
+                if (rightNode.HasValue)
+                {
+                    curNode.right = new TreeNode(rightNode.Value);
+                    queueTemp.Enqueue(curNode.right);
+                }
+            }
+
+            return root;
         }
     }
 }

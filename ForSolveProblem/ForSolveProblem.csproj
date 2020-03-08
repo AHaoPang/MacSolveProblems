@@ -13,5 +13,6 @@
     <Folder Include="Problem900_999\" />
     <Folder Include="Interview\" />
     <Folder Include="Exam\" />
+    <Folder Include="Model\" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            PriorityQueueTest();
+            MadeTreeV2Test();
         }
 
         #region PriorityQueue
@@ -62,5 +62,18 @@ namespace ForSolveProblem
             }
         }
         #endregion
+
+        private void MadeTreeV2Test()
+        {
+            int?[] array = new int?[] { 1, null, 1, 1, 1, null, null, 1, 1, null, 1, null, null, null, 1, null, 1 };
+            var root = ProblemHelper.MadeTreeV2(array);
+
+            array = new int?[] { 1, 1, 1, null, 1, null, null, 1, 1, null, 1 };
+            root = ProblemHelper.MadeTreeV2(array);
+
+            array = new int?[] { 1 };
+            root = ProblemHelper.MadeTreeV2(array);
+
+        }
     }
 }

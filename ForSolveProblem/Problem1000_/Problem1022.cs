@@ -71,7 +71,9 @@ namespace ForSolveProblem
             foreach (var item in curList)
             {
                 forReturn <<= 1;
+#pragma warning disable CS0675 // Bitwise-or operator used on a sign-extended operand
                 forReturn |= item;
+#pragma warning restore CS0675 // Bitwise-or operator used on a sign-extended operand
                 forReturn %= m_constNum;
             }
 

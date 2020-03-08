@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ForSolveProblem.Tools
+namespace ForSolveProblem
 {
     /// <summary>
     /// 并查集
