@@ -15,6 +15,26 @@ namespace ForSolveProblem
 
         public int MajorityElement(int[] nums)
         {
+            var initNum = nums.First();
+            var numCount = 0;
+            foreach (var numItem in nums)
+            {
+                if (initNum == numItem)
+                    numCount++;
+                else if (numCount == 0)
+                {
+                    initNum = numItem;
+                    numCount++;
+                }
+                else
+                    numCount--;
+            }
+
+            return initNum;
+        }
+
+        public int MajorityElement1(int[] nums)
+        {
             if (nums.Length == 1 || nums.Length == 2) return nums.First();
 
             var arr1 = nums.Take(nums.Length / 2).ToArray();
