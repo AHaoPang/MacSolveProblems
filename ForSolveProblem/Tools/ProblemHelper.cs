@@ -11,6 +11,18 @@ namespace ForSolveProblem
     /// </summary>
     public static class ProblemHelper
     {
+        #region Assert
+        /// <summary>
+        /// 断言两个类型是相等的
+        /// </summary>
+        public static void AEqual<T>(T t1, T t2)
+        {
+            if (!t1.Equals(t2))
+                throw new Exception();
+        }
+        #endregion
+
+        #region Enumerable Equal
         /// <summary>
         /// 判断两个数组是相等的（内部的值一致）
         /// </summary>
@@ -26,6 +38,18 @@ namespace ForSolveProblem
 
             return true;
         }
+
+        /// <summary>
+        /// 判断两个数组是相等的
+        /// </summary>
+        public static bool ArrayEqual<T>(IEnumerable<T> a1, IEnumerable<T> a2, bool needOrder = true)
+        {
+            var orderA1 = needOrder ? a1.OrderBy(i => i) : a1;
+            var orderA2 = needOrder ? a2.OrderBy(i => i) : a2;
+
+            return orderA1.SequenceEqual(orderA2);
+        }
+        #endregion
 
         /// <summary>
         /// 为字符串构造 next 数组
@@ -48,6 +72,7 @@ namespace ForSolveProblem
             return forReturn;
         }
 
+        #region MadeTree
         /// <summary>
         /// 将给定的数组转化为二叉树结构
         /// </summary>
@@ -99,5 +124,46 @@ namespace ForSolveProblem
 
             return root;
         }
+        #endregion
+
+        #region Prime
+
+        /// <summary>
+        /// 得到 2 ~ maxNum 间的所有素数
+        /// </summary>
+        public static ISet<int> GetPrimeSet(int maxNum)
+        {
+            /*
+             * 过滤素数的思路说明:
+             * 1.素数,只能被表示为 1 和自己的乘积;
+             * 2.一旦一个数字确定为素数,那么它的所有倍数,一定为合数;
+             * 3.循环的终止条件时 根号 maxNum
+             * 4.循环过程中,发现的第一个不为 1 的数字,必然是素数
+             * 5. 3 和 4 都可以通过数学的方法来证明
+             *      先说 3,若数字为合数,则必然由比他小的数字构成,那么倍数设置的时候,它必然被设置为 1 了;所以第一个数字只能是素数;
+             *      再说 4,最大数被表示为 2 个数字的乘积,若其为合数,那么其中一个数必然小于根号值,另一个数大于根号值,小于根号值的素数被找到了,它就一定会被标记了
+             *
+             * 从中体会"数学的证明过程"
+             */
+
+            var numArray = new int[maxNum + 1];
+
+            for (var i = 2; i * i <= maxNum; i++)
+            {
+                if (numArray[i] == 1) continue;
+
+                for (var j = i * 2; j <= maxNum; j += i)
+                    numArray[j] = 1;
+            }
+
+            var forReturn = new HashSet<int>();
+            for (var i = 2; i < numArray.Length; i++)
+                if (numArray[i] == 0)
+                    forReturn.Add(i);
+
+            return forReturn;
+        }
+
+        #endregion
     }
 }

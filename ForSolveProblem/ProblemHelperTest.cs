@@ -9,7 +9,7 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            MadeTreeV2Test();
+            GetPrimeSetTest();
         }
 
         #region PriorityQueue
@@ -74,6 +74,37 @@ namespace ForSolveProblem
             array = new int?[] { 1 };
             root = ProblemHelper.MadeTreeV2(array);
 
+        }
+
+        private void AssertEqualTest()
+        {
+            ProblemHelper.AEqual(5, 5);
+
+            ProblemHelper.AEqual(5, 6);
+        }
+
+        private void ArrayEqualTest()
+        {
+            var a1 = new[] { 1, 2, 3, 4 };
+            var a2 = new[] { 3, 4, 1, 2 };
+
+            var temp = ProblemHelper.ArrayEqual(a1, a2);
+
+            var b1 = new List<int>() { '1', '2', '4', '6' };
+            var b2 = new List<int>() { '1', '2', '4', '6' };
+
+            temp = ProblemHelper.ArrayEqual(b1, b2, false);
+
+            var c1 = new[] { 'a', 'b', 'c' };
+            var c2 = new[] { 'b', 'a', 'c' };
+
+            temp = ProblemHelper.ArrayEqual(c1, c2, false);
+            temp = ProblemHelper.ArrayEqual(c1, c2);
+        }
+
+        private void GetPrimeSetTest()
+        {
+            var temp = ProblemHelper.GetPrimeSet(100);
         }
     }
 }
