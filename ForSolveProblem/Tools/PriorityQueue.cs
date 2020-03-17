@@ -14,7 +14,10 @@ namespace ForSolveProblem
     /// 对外保留3个接口:
     /// 1.AddData 为优先级队列添加数据
     /// 2.HasData 判断队列中是否有数据
-    /// 3.GetData 若队列中有数据,则返回优先级最大的那个数据
+    /// 3.GetData 若队列中有数据,则移除优先级最大的数据并返回
+    /// 4.PeekData 若队列中有数据,则返回优先级最大的数据
+    ///
+    /// 5.Count 数据个数统计
     /// 
     /// </summary>
     public class PriorityQueue<T>
@@ -42,6 +45,11 @@ namespace ForSolveProblem
             m_innerList = new List<T>(capacity) { default(T) };
             m_isBigFirst = isBigFirst;
         }
+
+        /// <summary>
+        /// 数据个数
+        /// </summary>
+        public int Count { get => m_innerList.Count - 1; }
 
         /// <summary>
         /// 添加数据
@@ -74,6 +82,16 @@ namespace ForSolveProblem
             UpToDown(m_innerList, 1);
 
             return forReturn;
+        }
+
+        /// <summary>
+        /// 检查端点的数据
+        /// </summary>
+        public T PeekData()
+        {
+            if (m_innerList.Count < 2) throw new OverflowException("PriorityQueue empty");
+
+            return m_innerList[1];
         }
 
         #region private functions

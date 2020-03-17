@@ -16,6 +16,38 @@ namespace ForSolveProblem
         public int MaxProfit(int[] prices)
         {
             /*
+             * ##### 1. 题目概述：买卖股票的最佳时机
+             * 
+             * ##### 2. 思路：
+             *    - 特征：股票每日的价格构成了一个折线图;若想获得最大的利润,那么就应该是很低的价格买入,然后在以后以很高的价格卖出;
+             *    - 方案：站在结果的角度来看,有一天卖出了,那么一定是当天之前最低价格入手的,然后以当天价格卖出的;截止当天最低价格是可知的,当天价格也是明确的;
+             *    - 结果：只要找到每天卖出的最大利润,就得到了解
+             *
+             * ##### 3. 知识点：数组 DP
+             * 
+             * ##### 4. 复杂度分析: 
+             *    - 时间复杂度：O(n)
+             *    - 空间复杂度：O(1)
+             */
+
+            var forReturn = 0;
+            if (prices.Length == 0) return forReturn;
+
+            var minValue = prices.First();
+            foreach (var priceItem in prices)
+            {
+                minValue = Math.Min(priceItem, minValue);
+
+                if (priceItem > minValue && priceItem - minValue > forReturn)
+                    forReturn = priceItem - minValue;
+            }
+
+            return forReturn;
+        }
+
+        public int MaxProfit2(int[] prices)
+        {
+            /*
              * 遍历一次的方法：
              * 假设了自己在每个地位都买过，并在每个高位都买过，最后的目标是比较并获取最大利润
              * 1.时间复杂度：循环了一次，O(n)；
@@ -25,7 +57,7 @@ namespace ForSolveProblem
             int minPrices = int.MaxValue;
             int maxProfix = 0;
 
-            for(int i = 0; i < prices.Length; i++)
+            for (int i = 0; i < prices.Length; i++)
             {
                 if (prices[i] < minPrices)
                     minPrices = prices[i];
@@ -46,9 +78,9 @@ namespace ForSolveProblem
 
             int maxProfix = 0;
 
-            for(int i = 0; i < prices.Length-1; i++)
+            for (int i = 0; i < prices.Length - 1; i++)
             {
-                for(int j = i + 1; j < prices.Length; j++)
+                for (int j = i + 1; j < prices.Length; j++)
                 {
                     var temp = prices[j] - prices[i];
                     if (temp > maxProfix) maxProfix = temp;
