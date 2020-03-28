@@ -55,6 +55,7 @@ namespace ForSolveProblem
         }
         #endregion
 
+        #region KMP
         /// <summary>
         /// 为字符串构造 next 数组
         /// 此数组是配合 KMP 算法来使用的,数组的索引和值,都表示字符串中对应字符的数组下标
@@ -75,6 +76,7 @@ namespace ForSolveProblem
 
             return forReturn;
         }
+        #endregion
 
         #region MadeTree
         /// <summary>
