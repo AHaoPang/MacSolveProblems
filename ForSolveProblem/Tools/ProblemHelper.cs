@@ -22,6 +22,10 @@ namespace ForSolveProblem
         }
         #endregion
 
+        #region Gcd
+        public static int Gcd(int a, int b) => b == 0 ? a : Gcd(b, a % b);
+        #endregion
+
         #region Enumerable Equal
         /// <summary>
         /// 判断两个数组是相等的（内部的值一致）
