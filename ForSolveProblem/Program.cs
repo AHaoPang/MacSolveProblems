@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace ForSolveProblem
 {
@@ -9,9 +10,21 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            var p = new Problem912();
+            var p = new Problem460();
 
             p.RunProblem();
+
+
+            
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Enum, Inherited = false)]
+    class FlagsAttribute : Attribute
+    {
+        public FlagsAttribute()
+        {
+
         }
     }
 }
