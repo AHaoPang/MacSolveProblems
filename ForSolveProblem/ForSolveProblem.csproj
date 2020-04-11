@@ -14,6 +14,7 @@
     <Folder Include="Interview\" />
     <Folder Include="Exam\" />
     <Folder Include="Model\" />
+    <Folder Include="Learn\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Problem643.cs" />

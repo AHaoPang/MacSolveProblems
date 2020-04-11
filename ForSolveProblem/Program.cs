@@ -10,21 +10,8 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            var p = new Problem460();
-
+            var p = new ToStringLearn();
             p.RunProblem();
-
-
-            
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Enum, Inherited = false)]
-    class FlagsAttribute : Attribute
-    {
-        public FlagsAttribute()
-        {
-
         }
     }
 }
