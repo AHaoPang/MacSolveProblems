@@ -10,7 +10,7 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            var p = new ToStringLearn();
+            var p = new Interview_16_03();
             p.RunProblem();
         }
     }
