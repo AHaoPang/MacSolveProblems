@@ -21,6 +21,41 @@ namespace ForSolveProblem
             var temp = NumIslands(charArray);
         }
 
+        public int NumIslands(char[][] grid)
+        {
+            var res = 0;
+            for (var r = 0; r < grid.Length; r++)
+            {
+                for (var c = 0; c < grid[r].Length; c++)
+                {
+                    if (grid[r][c] != '1') continue;
+
+                    res++;
+                    DfsSearch(grid, r, c);
+                }
+            }
+
+            return res;
+        }
+
+        private void DfsSearch(char[][] grid, int r, int c)
+        {
+            var rows = grid.Length;
+            var cols = grid[0].Length;
+
+            if (r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] == '1')
+            {
+                grid[r][c] = '0';
+                var arr = new int[][] { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
+                foreach (var arrItem in arr)
+                {
+                    var nr = r + arrItem[0];
+                    var nc = c + arrItem[1];
+                    DfsSearch(grid, nr, nc);
+                }
+            }
+        }
+
         public int NumIslands(char[,] grid)
         {
             /*
@@ -89,10 +124,10 @@ namespace ForSolveProblem
                 /* 此处使用了路径压缩 */
 
                 int root = i;
-                while(ufArray[root] != root)
+                while (ufArray[root] != root)
                     root = ufArray[root];
 
-                while(ufArray[i] != i)
+                while (ufArray[i] != i)
                 {
                     i = ufArray[i];
                     ufArray[i] = root;
