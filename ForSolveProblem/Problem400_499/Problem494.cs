@@ -7,6 +7,10 @@ namespace ForSolveProblem
 {
     public class Problem494 : IProblem
     {
+        public Problem494()
+        {
+        }
+
         public void RunProblem()
         {
             var temp = FindTargetSumWays(new int[] { 1, 1, 1, 1, 1 }, 3);
@@ -20,6 +24,35 @@ namespace ForSolveProblem
         }
 
         public int FindTargetSumWays(int[] nums, int S)
+        {
+            var sum = nums.Sum();
+            if (sum < S) return 0;
+
+            var dp = new int[nums.Length + 1, 2 * sum + 1];
+            dp[0, sum] = 1;
+            for (var i = 0; i < nums.Length; i++)
+            {
+                for (var j = -sum; j <= sum; j++)
+                {
+                    var v = nums[i];
+                    var nj = j + sum;
+
+                    var min = 0;
+                    if (nj - v >= 0)
+                        min = dp[i, nj - v];
+
+                    var max = 0;
+                    if (nj + v < 2 * sum + 1)
+                        max = dp[i, nj + v];
+
+                    dp[i + 1, nj] = min + max;
+                }
+            }
+
+            return dp[nums.Length, S + sum];
+        }
+
+        public int FindTargetSumWays2(int[] nums, int S)
         {
             var sumTemp = nums.Sum();
             if (sumTemp < S) return 0;

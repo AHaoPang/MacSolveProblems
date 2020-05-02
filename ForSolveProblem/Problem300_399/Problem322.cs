@@ -15,6 +15,41 @@ namespace ForSolveProblem
 
         public int CoinChange(int[] coins, int amount)
         {
+            var dp = Enumerable.Repeat(amount + 1, amount + 1).ToArray();
+            dp[0] = 0;
+            for (var i = 0; i < coins.Length; i++)
+                for (var j = coins[i]; j < amount + 1; j++)
+                    dp[j] = Math.Min(dp[j], dp[j - coins[i]] + 1);
+
+            return dp[amount] > amount ? -1 : dp[amount];
+        }
+
+        public int CoinChange6(int[] coins, int amount)
+        {
+            var dp = Enumerable.Repeat(-1, amount + 1).ToArray();
+            dp[0] = 0;
+            for (var i = 0; i < coins.Length; i++)
+            {
+                for (var j = coins[i]; j <= amount; j++)
+                {
+                    var res = int.MaxValue;
+
+                    if (dp[j] != -1)
+                        res = dp[j];
+
+                    if (dp[j - coins[i]] != -1)
+                        res = Math.Min(dp[j - coins[i]] + 1, res);
+
+                    if (res != int.MaxValue)
+                        dp[j] = res;
+                }
+            }
+
+            return dp[amount];
+        }
+
+        public int CoinChange5(int[] coins, int amount)
+        {
             /*
              * ##### 1. 题目概述：零钱兑换
              * 

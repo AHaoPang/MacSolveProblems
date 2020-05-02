@@ -17,6 +17,21 @@ namespace ForSolveProblem
 
         public bool CanPartition(int[] nums)
         {
+            var sum = nums.Sum();
+            if (sum % 2 != 0) return false;
+
+            var target = sum / 2;
+            var dp = Enumerable.Repeat(int.MinValue, target + 1).ToArray();
+            dp[0] = 0;
+            for (var i = 0; i < nums.Length; i++)
+                for (var j = target; j >= nums[i]; j--)
+                    dp[j] = Math.Max(dp[j], dp[j - nums[i]] + nums[i]);
+
+            return dp[target] == target;
+        }
+
+        public bool CanPartition1(int[] nums)
+        {
             /*
              * 题目概述：判断给定的数组元素，能否分割成元素和相同的两个子数组
              * 

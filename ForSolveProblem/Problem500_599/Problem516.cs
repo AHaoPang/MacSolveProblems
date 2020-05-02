@@ -14,6 +14,28 @@ namespace ForSolveProblem
 
         public int LongestPalindromeSubseq(string s)
         {
+            var dp = new int[s.Length, s.Length];
+            for (var i = s.Length - 1; i >= 0; i--)
+            {
+                for (var j = i; j <= s.Length - 1; j++)
+                {
+                    if (i == j)
+                    {
+                        dp[i, j] = 1;
+                        continue;
+                    }
+
+                    dp[i, j] = Math.Max(dp[i, j - 1], dp[i + 1, j]);
+                    if (s[i] == s[j])
+                        dp[i, j] = Math.Max(dp[i, j], dp[i + 1, j - 1] + 2);
+                }
+            }
+
+            return dp[0, s.Length - 1];
+        }
+
+        public int LongestPalindromeSubseq1(string s)
+        {
             /*
              * 题目概述：寻找给定字符串中的最长回文字串
              * 
@@ -35,9 +57,9 @@ namespace ForSolveProblem
             var dp = new int[s.Length, s.Length];
             for (int i = 0; i < s.Length; i++) dp[i, i] = 1;
 
-            for(int i = s.Length - 1; i >= 0; i--)
+            for (int i = s.Length - 1; i >= 0; i--)
             {
-                for(int j=i+1;j < s.Length; j++)
+                for (int j = i + 1; j < s.Length; j++)
                 {
                     if (s[i] == s[j]) dp[i, j] = dp[i + 1, j - 1] + 2;
                     else dp[i, j] = Math.Max(dp[i, j - 1], dp[i + 1, j]);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ForSolveProblem
 {
@@ -16,6 +17,31 @@ namespace ForSolveProblem
         }
 
         public int FindMaxForm(string[] strs, int m, int n)
+        {
+            var nStrs = strs.Select(i => AnalyzedStr(i)).ToArray();
+            var dp = new int[m + 1, n + 1];
+            foreach (var (mCount, nCount) in nStrs)
+                for (var i = m; i >= mCount; i--)
+                    for (var j = n; j >= nCount; j--)
+                        dp[i, j] = Math.Max(dp[i, j], dp[i - mCount, j - nCount] + 1);
+
+            return dp[m, n];
+        }
+
+        private (int mCount, int nCount) AnalyzedStr(string str)
+        {
+            var m = 0;
+            var n = 0;
+            foreach (var strItem in str)
+            {
+                if (strItem == '0') m++;
+                else n++;
+            }
+
+            return (m, n);
+        }
+
+        public int FindMaxForm3(string[] strs, int m, int n)
         {
             return BackTrace(strs, 0, m, n, new Dictionary<string, int>());
         }
