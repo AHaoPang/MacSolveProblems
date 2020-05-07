@@ -56,6 +56,9 @@ namespace ForSolveProblem
         /// </summary>
         public void AddData(T t)
         {
+            if (m_innerList.Contains(t))
+                return;
+
             m_innerList.Add(t);
             var curIndex = m_innerList.Count - 1;
 

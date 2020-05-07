@@ -15,6 +15,16 @@ namespace ForSolveProblem
 
         public int MinimumTotal(IList<IList<int>> triangle)
         {
+            var dp = triangle.Last();
+            for (var i = triangle.Count - 2; i >= 0; i--)
+                for (var j = 0; j < triangle[i].Count; j++)
+                    dp[j] = Math.Min(dp[j], dp[j + 1]) + triangle[i][j];
+
+            return dp[0];
+        }
+
+        public int MinimumTotal3(IList<IList<int>> triangle)
+        {
             /*
              * 动态规划复杂度分析：
              * 1.时间复杂度，遍历二维数组的每个元素1次，所以是O(m*n)；

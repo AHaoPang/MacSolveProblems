@@ -21,6 +21,37 @@ namespace ForSolveProblem
 
         public bool CanIWin(int maxChoosableInteger, int desiredTotal)
         {
+            var totalSum = (1 + maxChoosableInteger) * maxChoosableInteger / 2;
+            if (desiredTotal > totalSum) return false;
+
+            return Win(maxChoosableInteger, desiredTotal, 0, new byte[1 << maxChoosableInteger]);
+        }
+
+        private bool Win(int maxInterger, int desiredNum, int curState, byte[] visited)
+        {
+            if (visited[curState] != 0)
+                return visited[curState] == 1;
+
+            var res = false;
+            for (var i = 1; i <= maxInterger; i++)
+            {
+                var curValue = 1 << (i - 1);
+                if ((curState & curValue) != 0)
+                    continue;
+
+                if (desiredNum <= i || !Win(maxInterger, desiredNum - i, curState | curValue, visited))
+                {
+                    res = true;
+                    break;
+                }
+            }
+
+            visited[curState] = (byte)(res ? 1 : 2);
+            return res;
+        }
+
+        public bool CanIWin1(int maxChoosableInteger, int desiredTotal)
+        {
             /*
              * 题目概述：给定可选择数字的范围，以及目标值，判断先手放，是否稳赢
              * 

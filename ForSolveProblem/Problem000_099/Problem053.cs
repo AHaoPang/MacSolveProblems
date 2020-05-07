@@ -15,6 +15,23 @@ namespace ForSolveProblem
 
         public int MaxSubArray(int[] nums)
         {
+            if (nums.Length == 0) return 0;
+
+            var dp = new int[nums.Length];
+            dp[0] = nums[0];
+
+            var res = dp[0];
+            for (var i = 1; i < nums.Length; i++)
+            {
+                dp[i] = Math.Max(dp[i - 1] + nums[i], nums[i]);
+                res = Math.Max(res, dp[i]);
+            }
+
+            return res;
+        }
+
+        public int MaxSubArray2(int[] nums)
+        {
             /*
              * 思路：对前一个方法的改进在于，使用一个一维数组来维护
              */
@@ -23,7 +40,7 @@ namespace ForSolveProblem
             int[] dp = new int[nums.Length];
             dp[0] = nums[0];
 
-            for(int i = 1; i < nums.Length; i++)
+            for (int i = 1; i < nums.Length; i++)
                 dp[i] = Math.Max(nums[i], dp[i - 1] + nums[i]);
 
             foreach (var dpItem in dp) if (maxTemp < dpItem) maxTemp = dpItem;
