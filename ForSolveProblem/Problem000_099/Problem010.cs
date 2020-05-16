@@ -30,9 +30,68 @@ namespace ForSolveProblem
 
             temp = IsMatch("ab", ".*c");
             if (temp == true) throw new Exception();
+
+            temp = IsMatch("aaa", "ab*ac*a");
+            if (temp != true) throw new Exception();
         }
 
         public bool IsMatch(string s, string p)
+        {
+            var dp = new bool[s.Length + 1, p.Length + 1];
+            dp[0, 0] = true;
+            for (var pi = 0; pi < p.Length; pi++)
+                if (p[pi] == '*')
+                    dp[0, pi + 1] = dp[0, pi - 1];
+
+            for (var si = 1; si <= s.Length; si++)
+            {
+                for (var pi = 1; pi <= p.Length; pi++)
+                {
+                    if (s[si - 1] == p[pi - 1] || p[pi - 1] == '.')
+                    {
+                        dp[si, pi] = dp[si - 1, pi - 1];
+                    }
+                    else if (p[pi - 1] == '*')
+                    {
+                        if (p[pi - 1 - 1] == s[si - 1])
+                        {
+                            var count = 0;
+                            var curChar = s[si - 1];
+                            for (var j = si - 1; j >= 0; j--)
+                            {
+                                if (curChar != s[j])
+                                    break;
+                                count++;
+                            }
+
+                            for (var j = 0; j <= count; j++)
+                            {
+                                dp[si, pi] = dp[si - j, pi - 2];
+                                if (dp[si, pi])
+                                    break;
+                            }
+                        }
+                        else if (p[pi - 1 - 1] == '.')
+                        {
+                            for (var j = si; j >= 0; j--)
+                            {
+                                dp[si, pi] = dp[j, pi - 2];
+                                if (dp[si, pi])
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            dp[si, pi] = dp[si, pi - 2];
+                        }
+                    }
+                }
+            }
+
+            return dp[s.Length, p.Length];
+        }
+
+        public bool IsMatch1(string s, string p)
         {
             /*
              * 实现一种模式匹配的效果

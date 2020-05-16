@@ -1,37 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Problem000_099\" />
-    <Folder Include="Problem900_999\" />
-    <Folder Include="Interview\" />
-    <Folder Include="Exam\" />
-    <Folder Include="Model\" />
-    <Folder Include="Learn\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Problem643.cs" />
-    <Compile Remove="Problem1095.cs" />
-    <Compile Remove="Problem275.cs" />
-    <Compile Remove="Problem238.cs" />
-    <Compile Remove="Problem5392.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Exam\Exam_56_I.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Problem1000_\Problem1095.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Problem100_199\Problem150.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Problem200_299\Problem228.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Problem200_299\Problem238.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Problem200_299\Problem275.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Problem300_399\Problem310.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Competitions\Problem5180.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="Competitions\Problem5392.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-  </ItemGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            new Problem188().RunProblem();
+            new Problem233().RunProblem();
         }
     }
 }

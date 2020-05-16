@@ -10,6 +10,28 @@ namespace ForSolveProblem
 
         public int DiameterOfBinaryTree(TreeNode root)
         {
+            m_res = 0;
+            Dfs(root);
+
+            return m_res;
+        }
+
+        private int m_res;
+
+        private int Dfs(TreeNode root)
+        {
+            if (root == null) return 0;
+
+            var lV = Dfs(root.left);
+            var rV = Dfs(root.right);
+
+            m_res = Math.Max(m_res, lV + rV);
+
+            return Math.Max(lV, rV) + 1;
+        }
+
+        public int DiameterOfBinaryTree1(TreeNode root)
+        {
             /*
              * ##### 1. 题目概述：二叉树的直径
              * 

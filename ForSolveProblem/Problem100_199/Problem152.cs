@@ -15,6 +15,22 @@ namespace ForSolveProblem
 
         public int MaxProduct(int[] nums)
         {
+            var res = nums[0];
+            var max = nums[0];
+            var min = nums[0];
+            for (var i = 1; i < nums.Length; i++)
+            {
+                var list = new int[] { nums[i], min * nums[i], max * nums[i] };
+                max = list.Max();
+                min = list.Min();
+                res = Math.Max(res, max);
+            }
+
+            return res;
+        }
+
+        public int MaxProduct4(int[] nums)
+        {
             if (!nums.Any()) return 0;
 
             /*
