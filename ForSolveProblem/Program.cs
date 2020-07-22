@@ -10,8 +10,9 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
+            new TaskLearn().RunProblem();
 
-            new Problem076().RunProblem();
+            Console.ReadKey();
         }
     }
 }
