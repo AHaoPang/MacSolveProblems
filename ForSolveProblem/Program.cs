@@ -10,7 +10,7 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            new TaskLearn().RunProblem();
+            new BlockingCollectionLearn().RunProblem();
 
             Console.ReadKey();
         }
