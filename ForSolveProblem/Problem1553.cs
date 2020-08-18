@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ForSolveProblem
@@ -26,15 +27,16 @@ namespace ForSolveProblem
             if (m_Dic.ContainsKey(n))
                 return m_Dic[n];
 
-            var res = 0;
             if (n == 0)
-                res = -1;
-            else if (n == 1)
-                res = 0;
-            else if (n == 2 || n == 3)
-                res = 1;
-            else
-                res = Math.Min(Dfs(n / 2) + n % 2, Dfs(n / 3) + n % 3);
+                return 0;
+
+            if (n == 1)
+                return 1;
+
+            if (n == 2)
+                return 2;
+
+            var res = Math.Min(Dfs(n / 2) + n % 2, Dfs(n / 3) + n % 3);
 
             m_Dic[n] = res + 1;
             return m_Dic[n];
