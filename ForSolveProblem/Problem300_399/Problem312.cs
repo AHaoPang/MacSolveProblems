@@ -7,10 +7,11 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            throw new NotImplementedException();
+            var temp = MaxCoins(new[] { 3, 1, 5, 8 });
+            if (temp != 167) throw new Exception();
         }
 
-        public int MaxCoins(int[] nums)
+        public int MaxCoins2(int[] nums)
         {
             var n = nums.Length;
             var list = new List<int>(n + 2);
@@ -31,6 +32,31 @@ namespace ForSolveProblem
             }
 
             return dp[0, newN - 1];
+        }
+
+        public int MaxCoins(int[] nums)
+        {
+            var list = new List<int>(nums.Length + 2);
+            list.Add(1);
+            list.AddRange(nums);
+            list.Add(1);
+
+            var dp = new int[list.Count, list.Count];
+            for (var c = 2; c < list.Count; c++)
+            {
+                var l = 0;
+                var r = c;
+                while (r < list.Count)
+                {
+                    for (var k = l + 1; k < r; k++)
+                        dp[l, r] = Math.Max(dp[l, r], dp[l, k] + dp[k, r] + list[l] * list[k] * list[r]);
+
+                    l++;
+                    r++;
+                }
+            }
+
+            return dp[0, list.Count - 1];
         }
     }
 }
