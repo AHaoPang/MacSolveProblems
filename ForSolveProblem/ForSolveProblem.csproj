@@ -10,4 +10,7 @@
     <ItemGroup>
       <Folder Include="ThreadLearn\" />
     </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="Program.cs" />
+    </ItemGroup>
 </Project>
