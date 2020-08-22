@@ -10,10 +10,17 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            var arr = new int[] {6, 4, 7, 3, 6, 9,3, 12 };
+            var arr = new int[] { 6, 4, 7, 3, 6, 9, 3, 12 };
+            QuickSort(arr);
+
+
             Sort(arr, 0, 7);
+
         }
 
+        /// <summary>
+        /// 方案一
+        /// </summary>
         private void Sort(int[] arr, int start, int stop)
         {
             /*
@@ -29,12 +36,12 @@ namespace ForSolveProblem
             int firstIndex = start + 1;
             int lastIndex = stop;
 
-            while(firstIndex <= lastIndex)
+            while (firstIndex <= lastIndex)
             {
                 while (arr[firstIndex] <= arr[pivotIndex]) firstIndex++;
                 while (arr[lastIndex] > arr[pivotIndex]) lastIndex--;
 
-                if(firstIndex < lastIndex)
+                if (firstIndex < lastIndex)
                 {
                     var temp1 = arr[lastIndex];
                     arr[lastIndex] = arr[firstIndex];
@@ -48,6 +55,35 @@ namespace ForSolveProblem
 
             Sort(arr, start, lastIndex - 1);
             Sort(arr, lastIndex + 1, stop);
+        }
+
+        /// <summary>
+        /// 方案二
+        /// </summary>
+        private void QuickSort(int[] numArr)
+        {
+            PartSort(numArr, 0, numArr.Length - 1);
+        }
+
+        private void PartSort(int[] numArr, int startindex, int stopIndex)
+        {
+            if (startindex >= stopIndex) return;
+
+            var insertIndex = startindex;
+            var splitValue = numArr[stopIndex];
+            for (var i = startindex; i <= stopIndex; i++)
+            {
+                if (numArr[i] <= splitValue)
+                {
+                    var temp = numArr[i];
+                    numArr[i] = numArr[insertIndex];
+                    numArr[insertIndex] = temp;
+                    insertIndex++;
+                }
+            }
+
+            PartSort(numArr, startindex, insertIndex - 2);
+            PartSort(numArr, insertIndex, stopIndex);
         }
     }
 }
