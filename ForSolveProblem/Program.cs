@@ -1,9 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-
 namespace ForSolveProblem
 {
     class Program
@@ -11,8 +5,6 @@ namespace ForSolveProblem
         static void Main(string[] args)
         {
             new ProblemSqrt().RunProblem();
-
-            Console.ReadKey();
         }
     }
 }
