@@ -4,7 +4,7 @@ namespace ForSolveProblem
     {
         static void Main(string[] args)
         {
-            new ProblemSqrt().RunProblem();
+            new Problem5498().RunProblem();
         }
     }
 }
