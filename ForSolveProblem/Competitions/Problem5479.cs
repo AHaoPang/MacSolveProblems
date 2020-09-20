@@ -32,8 +32,9 @@ namespace ForSolveProblem
             var c = 0;
             for (var j = str.Length - 1; j >= 0; j--)
             {
-                c++;
                 res.Add(str[j]);
+
+                c++;
                 if (c == 3)
                 {
                     c = 0;
@@ -41,11 +42,8 @@ namespace ForSolveProblem
                 }
             }
 
-            if (res[res.Count - 1] == '.')
-                res.RemoveAt(res.Count - 1);
-
             res.Reverse();
-            return new string(res.ToArray());
+            return new string(res.ToArray()).TrimStart('.');
         }
     }
 }

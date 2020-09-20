@@ -64,63 +64,66 @@ namespace ForSolveProblem
             return false;
         }
 
-        private bool HasCycle(char[][] grid, int x, int y)
+        private bool HasCycle(char[][] grid, int rt, int ct)
         {
             var r = grid.Length;
             var c = grid[0].Length;
-            var curValue = grid[x][y];
+            var curValue = grid[rt][ct];
             var path = new[] { 1, 2, 3, 4 };
 
             var visited = new bool[r, c];
-            visited[x, y] = true;
-            var queue = new Queue<entity>();
-            queue.Enqueue(new entity(x, y, 0));
-            grid[x][y] = '.';
+            visited[rt, ct] = true;
+            var queue = new Queue<Entity>();
+            queue.Enqueue(new Entity(rt, ct, 0));
+            grid[rt][ct] = '.';
 
             while (queue.Any())
             {
-                var secondQueue = new Queue<entity>();
+                var secondQueue = new Queue<Entity>();
                 while (queue.Any())
                 {
                     var curItem = queue.Dequeue();
                     foreach (var pathItem in path)
                     {
+                        //不走回头路
                         if (curItem.From == pathItem) continue;
 
-                        var nx = 0;
-                        var ny = 0;
+                        //确定新的位置
+                        var nr = 0;
+                        var nc = 0;
                         switch (pathItem)
                         {
                             case 1:
-                                nx = curItem.X - 1;
-                                ny = curItem.Y;
+                                nr = curItem.R - 1;
+                                nc = curItem.C;
                                 break;
 
                             case 2:
-                                nx = curItem.X + 1;
-                                ny = curItem.Y;
+                                nr = curItem.R + 1;
+                                nc = curItem.C;
                                 break;
 
                             case 3:
-                                nx = curItem.X;
-                                ny = curItem.Y - 1;
+                                nr = curItem.R;
+                                nc = curItem.C - 1;
                                 break;
 
                             case 4:
-                                nx = curItem.X;
-                                ny = curItem.Y + 1;
+                                nr = curItem.R;
+                                nc = curItem.C + 1;
                                 break;
                         }
 
-                        if (nx < 0 || nx >= r || ny < 0 || ny >= c)
+                        if (nr < 0 || nr >= r || nc < 0 || nc >= c)
                             continue;
 
-                        if (grid[nx][ny] == '.' && visited[nx, ny]) return true;
+                        //确定了位置重叠
+                        if (grid[nr][nc] == '.' && visited[nr, nc]) return true;
 
-                        if (grid[nx][ny] != curValue)
+                        if (grid[nr][nc] != curValue)
                             continue;
 
-                        visited[nx, ny] = true;
+                        visited[nr, nc] = true;
 
                         var nfrom = 0;
                         switch (pathItem)
@@ -141,8 +144,8 @@ namespace ForSolveProblem
                                 nfrom = 3;
                                 break;
                         }
-                        secondQueue.Enqueue(new entity(nx, ny, nfrom));
-                        grid[nx][ny] = '.';
+                        secondQueue.Enqueue(new Entity(nr, nc, nfrom));
+                        grid[nr][nc] = '.';
                     }
                 }
 
@@ -153,18 +156,18 @@ namespace ForSolveProblem
             return false;
         }
 
-        class entity
+        class Entity
         {
-            public entity(int x, int y, int from)
+            public Entity(int r, int c, int from)
             {
-                this.X = x;
-                this.Y = y;
-                this.From = from;
+                R = r;
+                C = c;
+                From = from;
             }
 
-            public int X { get; set; }
+            public int R { get; set; }
 
-            public int Y { get; set; }
+            public int C { get; set; }
 
             /// <summary>
             /// 0 - 无
