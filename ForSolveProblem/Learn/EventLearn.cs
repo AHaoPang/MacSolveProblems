@@ -8,6 +8,8 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
+            #region Test1
+
             var m = new MailManager();
 
             new Fax(m, 1);
@@ -18,12 +20,56 @@ namespace ForSolveProblem
             {
                 m.SimulateNewMail("from", "to", "subject");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            #endregion
+
+            var cl = new ConsoleLogger();
+
+            Logger.Instance.AddMsg(100, "200");
 
             Console.WriteLine("end");
+        }
+
+        public delegate void MySelf<T>(T t);
+
+        private class Logger
+        {
+            public static Logger Instance { get; } = new Logger();
+            private Logger() { }
+
+            public event EventHandler<LoggerEventArgs> Log;
+
+            public event MySelf<int> AnotherMsg;
+
+            public void AddMsg(int priority, string msg)
+                => Log?.Invoke(this, new LoggerEventArgs(priority, msg));
+        }
+
+        private class LoggerEventArgs
+        {
+            public LoggerEventArgs(int priority, string msg)
+            {
+                Priority = priority;
+                Msg = msg;
+            }
+
+            public int Priority { get; }
+            public string Msg { get; }
+        }
+
+        private class ConsoleLogger
+        {
+            public ConsoleLogger()
+            {
+                Logger.Instance.Log +=
+                    (sender, msg) => Console.WriteLine($"From ConsoleLogger:{msg.Priority}_{msg.Msg}");
+
+                Logger.Instance.AnotherMsg +=
+                    i => Console.WriteLine($"int num:{i}");
+            }
         }
     }
 
@@ -65,7 +111,7 @@ namespace ForSolveProblem
     {
         private int m_id;
 
-        public Fax(MailManager mm,int id)
+        public Fax(MailManager mm, int id)
         {
             m_id = id;
             mm.NewMail += FaxMsg;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -9,10 +10,26 @@ namespace ForSolveProblem
 {
     public class TaskLearn : IProblem
     {
-        public void RunProblem()
+        public async void RunProblem()
         {
-            Example2();
+            ComputeUsage2();
+
+            //AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            //{
+            //    Console.ForegroundColor = ConsoleColor.Cyan;
+            //    Console.WriteLine(e.ExceptionObject.ToString());
+            //};
+
+            //try
+            //{
+            //    var t = await ThrowExceptionFunc();
+            //    Console.WriteLine($"t = {t}");
+            //}
+            //catch (Exception e) when (LogMessage(e))
+            //{
+            //}
         }
+
 
         private static void Example1()
         {
@@ -71,6 +88,92 @@ namespace ForSolveProblem
                 Console.WriteLine("   {0} subdirectories", dirs.Length);
                 Console.WriteLine("   {0} files", files.Length);
             });
+        }
+
+        private static async Task<int> ThrowExceptionFunc()
+        {
+            Func<int, int> f = i =>
+            {
+                Console.WriteLine("In SomeThing.");
+                throw new ArgumentNullException("SomeThing Wrong.");
+                return 100;
+            };
+
+            var r = await Task.Run(() => f(10));
+
+            return r;
+        }
+
+        private bool LogMessage(Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
+
+
+        private async Task<int> GetLeftValue() => throw new KeyNotFoundException();
+
+        private async Task<int> GetRightValue() => throw new KeyNotFoundException();
+
+        private async Task<int> ComputeUsageAsync()
+        {
+            try
+            {
+                var v1 = await GetLeftValue();
+                var v2 = await GetRightValue();
+
+                return v1 + v2;
+            }
+            catch (KeyNotFoundException e)
+            {
+                return 0;
+            }
+        }
+
+        public int ComputeUsage()
+        {
+            try
+            {
+                var v1 = GetLeftValue().Result;
+                var v2 = GetRightValue().Result;
+
+                return v1 + v2;
+            }
+            catch (AggregateException e)
+            when (e.InnerExceptions.FirstOrDefault().GetType() == typeof(KeyNotFoundException))
+            {
+                return 0;
+            }
+        }
+
+        public int ComputeUsage2()
+        {
+            try
+            {
+                var t1 = GetLeftValue();
+                var t2 = GetRightValue();
+
+                Task.WaitAll(t1, t2);
+
+                return t1.Result;
+            }
+            catch (AggregateException e)
+            when (e.InnerExceptions.FirstOrDefault().GetType() == typeof(KeyNotFoundException))
+            {
+                return 0;
+            }
+        }
+
+        private static async Task SimulatedWorkAsync()
+        {
+            await Task.Delay(1000);
+        }
+
+        public static void SyncOverAsyncDeadlock()
+        {
+            var delayTask = SimulatedWorkAsync();
+
+            delayTask.Wait();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ForSolveProblem
             throw new NotImplementedException();
         }
 
-        public TreeNode ConvertBST(TreeNode root)
+        public TreeNode ConvertBST1(TreeNode root)
         {
             m_total = 0;
             Recursive(root);
@@ -27,6 +27,25 @@ namespace ForSolveProblem
             root.val = m_total;
 
             Recursive(root.left);
+        }
+
+        public TreeNode ConvertBST(TreeNode root)
+        {
+            m_sum = 0;
+            RightRootLeft(root);
+            return root;
+        }
+
+        private int m_sum;
+
+        private void RightRootLeft(TreeNode root)
+        {
+            if (root == null) return;
+
+            RightRootLeft(root.right);
+            m_sum += root.val;
+            root.val = m_sum;
+            RightRootLeft(root.left);
         }
     }
 }
