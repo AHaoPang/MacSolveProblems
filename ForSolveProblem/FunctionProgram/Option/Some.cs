@@ -1,5 +1,4 @@
-<<<<<<< HEAD:ForSolveProblem/FunctionProgram/Option/Some.cs
-﻿using System;
+using System;
 namespace ForSolveProblem.FunctionProgram.Option
 {
     public struct Some<T>
@@ -15,17 +14,3 @@ namespace ForSolveProblem.FunctionProgram.Option
         }
     }
 }
-=======
-namespace ForSolveProblem
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            new Problem5500().RunProblem();
-        }
-    }
-}
-
-
->>>>>>> f9cdf63e26c41b4111b80036a648692e34626a18:ForSolveProblem/Program.cs
