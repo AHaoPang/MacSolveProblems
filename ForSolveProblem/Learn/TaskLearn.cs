@@ -10,7 +10,7 @@ namespace ForSolveProblem
 {
     public class TaskLearn : IProblem
     {
-        public async void RunProblem()
+        public void RunProblem()
         {
             ComputeUsage2();
 
@@ -96,7 +96,7 @@ namespace ForSolveProblem
             {
                 Console.WriteLine("In SomeThing.");
                 throw new ArgumentNullException("SomeThing Wrong.");
-                return 100;
+                //return 100;
             };
 
             var r = await Task.Run(() => f(10));
@@ -111,9 +111,9 @@ namespace ForSolveProblem
         }
 
 
-        private async Task<int> GetLeftValue() => throw new KeyNotFoundException();
+        private async Task<int> GetLeftValue() => await Task.FromResult(1); // throw new KeyNotFoundException();
 
-        private async Task<int> GetRightValue() => throw new KeyNotFoundException();
+        private async Task<int> GetRightValue() => await Task.FromResult(2);// throw new KeyNotFoundException();
 
         private async Task<int> ComputeUsageAsync()
         {
@@ -124,7 +124,7 @@ namespace ForSolveProblem
 
                 return v1 + v2;
             }
-            catch (KeyNotFoundException e)
+            catch (KeyNotFoundException)
             {
                 return 0;
             }

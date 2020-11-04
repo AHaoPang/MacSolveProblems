@@ -42,7 +42,7 @@ namespace ForSolveProblem
 
             public event EventHandler<LoggerEventArgs> Log;
 
-            public event MySelf<int> AnotherMsg;
+            //public event MySelf<int> AnotherMsg;
 
             public void AddMsg(int priority, string msg)
                 => Log?.Invoke(this, new LoggerEventArgs(priority, msg));
@@ -67,8 +67,8 @@ namespace ForSolveProblem
                 Logger.Instance.Log +=
                     (sender, msg) => Console.WriteLine($"From ConsoleLogger:{msg.Priority}_{msg.Msg}");
 
-                Logger.Instance.AnotherMsg +=
-                    i => Console.WriteLine($"int num:{i}");
+                //Logger.Instance.AnotherMsg +=
+                //    i => Console.WriteLine($"int num:{i}");
             }
         }
     }
