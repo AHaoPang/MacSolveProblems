@@ -166,9 +166,9 @@ namespace ForSolveProblem
                         return forReturn = MatchResult(s, sIndex + 1, p, pIndex + 1);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
             finally
             {
