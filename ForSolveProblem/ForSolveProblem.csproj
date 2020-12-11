@@ -10,10 +10,9 @@
         <PackageReference Include="Castle.Windsor" Version="5.0.1" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="ThreadLearn\" />
-      <Folder Include="FunctionProgram\" />
-      <Folder Include="FunctionProgram\Option\" />
-      <Folder Include="ResourceLearn\" />
-      <Folder Include="CastleLearn\" />
+      <Folder Include="Learn\ThreadLearn\" />
+      <Folder Include="Learn\FunctionProgram\" />
+      <Folder Include="Learn\ResourceLearn\" />
+      <Folder Include="Learn\CastleLearn\" />
     </ItemGroup>
 </Project>
