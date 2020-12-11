@@ -11,6 +11,8 @@ namespace ForSolveProblem
         static void Main()
         {
             new Problem905().RunProblem();
+
+            //using github studio extension
         }
     }
 }
