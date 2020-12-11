@@ -8,20 +8,21 @@ namespace ForSolveProblem
 {
     public class Problem106 : IProblem
     {
-        public class TreeNode
-        {
-            public int val;
-            public TreeNode left;
-            public TreeNode right;
-            public TreeNode(int x) { val = x; }
-        }
-
         public void RunProblem()
         {
             int[] inorder = new int[] { 9, 3, 15, 20, 7 };
             int[] postorder = new int[] { 9, 15, 7, 20, 3 };
 
-            var temp = BuildTree(inorder, postorder);
+            var temp = BuildTree1(inorder, postorder);
+
+            /*
+             * [1,2]
+[2,1]
+             */
+            inorder = new int[] { 1, 2 };
+            postorder = new int[] { 2, 1 };
+
+            BuildTree1(inorder, postorder);
         }
 
         private int[] m_inorder;
@@ -67,6 +68,33 @@ namespace ForSolveProblem
             root.left = Recursive(leftIndex, nodePos);
 
             return root;
+        }
+
+
+        public TreeNode BuildTree1(int[] inorder, int[] postorder)
+        {
+            if (inorder.Length == 0) return null;
+
+            return BuildNode(inorder, postorder, 0, postorder.Length - 1, 0);
+        }
+
+        private TreeNode BuildNode(int[] inorder, int[] postorder, int left, int right, int mid)
+        {
+            if (left > right) return null;
+            if (left == right) return new TreeNode(postorder[left]);
+
+            var root = inorder[mid + 1];
+            var rootNode = new TreeNode(root);
+            rootNode.left = new TreeNode(postorder[left]);
+
+            var rootIndex = left + 1;
+            while (postorder[rootIndex] != root)
+                rootIndex++;
+
+            var rightNode = BuildNode(inorder, postorder, left + 1, rootIndex - 1, mid + 2);
+            rootNode.right = rightNode;
+
+            return rootNode;
         }
     }
 }
