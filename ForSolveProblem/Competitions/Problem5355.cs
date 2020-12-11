@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace ForSolveProblem
 {
@@ -90,7 +89,7 @@ namespace ForSolveProblem
 
             var path = new List<int>();
             var tValue = target;
-            while(visited[tValue] != 0)
+            while (visited[tValue] != 0)
             {
                 tValue = visited[tValue];
                 path.Add(tValue);
