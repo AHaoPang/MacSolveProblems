@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ForSolveProblem
 {
@@ -7,10 +8,17 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            throw new NotImplementedException();
+            var t1 = new TreeNode(1);
+            var t2 = new TreeNode(2);
+            var t3 = new TreeNode(2);
+
+            t1.right = t2;
+            t2.left = t3;
+
+            var t = FindMode(t1);
         }
 
-        public int[] FindMode(TreeNode root)
+        public int[] FindMode1(TreeNode root)
         {
             /*
              * ##### 1. 题目概述：二叉搜索树中的众数
@@ -80,5 +88,66 @@ namespace ForSolveProblem
                 m_maxNumList.Add(m_curValue);
             }
         }
+
+        #region Way2
+        public int[] FindMode(TreeNode root)
+        {
+            _res = new List<int>();
+            _maxCount = 0;
+
+            _curCount = 0;
+            _curNum = 0;
+
+            if (root != null)
+            {
+                Dfs(root);
+                ForUpdate();
+            }
+            return _res.ToArray();
+        }
+
+        private int _curNum;
+        private int _curCount;
+
+        private void Dfs(TreeNode root)
+        {
+            if (root == null) return;
+
+            Dfs(root.left);
+
+            if (root.val == _curNum)
+            {
+                //相等则累计
+                _curCount++;
+            }
+            else
+            {
+                //不相等,则触发更新
+                ForUpdate();
+
+                _curCount = 1;
+                _curNum = root.val;
+            }
+
+            Dfs(root.right);
+        }
+
+        private int _maxCount;
+        private IList<int> _res;
+
+        private void ForUpdate()
+        {
+            if (_curCount > _maxCount)
+            {
+                _res.Clear();
+                _maxCount = _curCount;
+                _res.Add(_curNum);
+            }
+            else if (_curCount == _maxCount)
+            {
+                _res.Add(_curNum);
+            }
+        } 
+        #endregion
     }
 }
