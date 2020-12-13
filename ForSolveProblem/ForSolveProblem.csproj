@@ -15,5 +15,6 @@
       <Folder Include="FunctionProgram\Option\" />
       <Folder Include="ResourceLearn\" />
       <Folder Include="CastleLearn\" />
+      <Folder Include="CSharp9\" />
     </ItemGroup>
 </Project>
