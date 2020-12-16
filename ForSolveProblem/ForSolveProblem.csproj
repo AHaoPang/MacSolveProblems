@@ -5,14 +5,25 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
+      <Compile Remove="CastleLearn\**" />
+      <Compile Remove="FunctionProgram\**" />
+      <Compile Remove="ResourceLearn\**" />
+      <Compile Remove="ThreadLearn\**" />
+      <EmbeddedResource Remove="CastleLearn\**" />
+      <EmbeddedResource Remove="FunctionProgram\**" />
+      <EmbeddedResource Remove="ResourceLearn\**" />
+      <EmbeddedResource Remove="ThreadLearn\**" />
+      <None Remove="CastleLearn\**" />
+      <None Remove="FunctionProgram\**" />
+      <None Remove="ResourceLearn\**" />
+      <None Remove="ThreadLearn\**" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="Castle.Core" Version="4.4.1" />
         <PackageReference Include="Castle.Windsor" Version="5.0.1" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Learn\ThreadLearn\" />
-      <Folder Include="Learn\FunctionProgram\" />
-      <Folder Include="Learn\ResourceLearn\" />
-      <Folder Include="Learn\CastleLearn\" />
+      <Folder Include="CSharp9\" />
     </ItemGroup>
 </Project>
