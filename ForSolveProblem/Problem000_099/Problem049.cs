@@ -13,8 +13,9 @@ namespace ForSolveProblem
             var temp = GroupAnagrams(new string[] { "eat", "tea", "tan", "ate", "nat", "bat" });
         }
 
-        public IList<IList<string>> GroupAnagrams(string[] strs)
+        public IList<IList<string>> GroupAnagrams2(string[] strs)
         {
+            //wrong ans.
             Dictionary<int, IList<string>> forReturn = new Dictionary<int, IList<string>>();
 
             foreach (var strItem in strs)
@@ -73,6 +74,49 @@ namespace ForSolveProblem
             }
 
             return forReturn.Values.ToList();
+        }
+
+        public IList<IList<string>> GroupAnagrams3(string[] strs)
+        {
+            //wrong ans.
+            var dic = new Dictionary<char, IList<string>>();
+            foreach (var item in strs)
+            {
+                var curChar = (char)0;
+                for (var i = 0; i < item.Length; i++)
+                    curChar ^= item[i];
+
+                if (!dic.ContainsKey(curChar))
+                    dic[curChar] = new List<string>();
+
+                dic[curChar].Add(item);
+            }
+
+            return dic.Select(i => i.Value).ToList();
+        }
+
+        public IList<IList<string>> GroupAnagrams(string[] strs)
+        {
+            var dic = new Dictionary<string, IList<string>>();
+            foreach (var strItem in strs)
+            {
+                var key = GetKeyStr(strItem);
+                if (!dic.ContainsKey(key))
+                    dic[key] = new List<string>();
+
+                dic[key].Add(strItem);
+            }
+
+            return dic.Values.ToList();
+        }
+
+        private string GetKeyStr(string str)
+        {
+            var intArr = new int[26];
+            foreach (var charItem in str)
+                intArr[charItem - 'a']++;
+
+            return string.Join(',', intArr);
         }
     }
 }
