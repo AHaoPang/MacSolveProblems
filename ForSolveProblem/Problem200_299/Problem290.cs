@@ -23,7 +23,7 @@ namespace ForSolveProblem
             if (temp != false) throw new Exception();
         }
 
-        public bool WordPattern(string pattern, string str)
+        public bool WordPattern1(string pattern, string str)
         {
             /*
              * 字符与字符串之间的模式匹配
@@ -49,6 +49,27 @@ namespace ForSolveProblem
 
                 cToS[pattern[i]] = wordArr[i];
                 sToC[wordArr[i]] = pattern[i];
+            }
+
+            return true;
+        }
+
+        public bool WordPattern(string pattern, string s)
+        {
+            var sArr = s.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (sArr.Length != pattern.Length) return false;
+
+            var pTosDic = new Dictionary<char, string>();
+            var sTopDic = new Dictionary<string, char>();
+            for (var i = 0; i < pattern.Length; i++)
+            {
+                if (pTosDic.ContainsKey(pattern[i]) && pTosDic[pattern[i]] != sArr[i])
+                    return false;
+                if (sTopDic.ContainsKey(sArr[i]) && sTopDic[sArr[i]] != pattern[i])
+                    return false;
+
+                pTosDic[pattern[i]] = sArr[i];
+                sTopDic[sArr[i]] = pattern[i];
             }
 
             return true;
