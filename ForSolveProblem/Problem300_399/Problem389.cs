@@ -13,7 +13,7 @@ namespace ForSolveProblem
             throw new NotImplementedException();
         }
 
-        public char FindTheDifference(string s, string t)
+        public char FindTheDifference1(string s, string t)
         {
             /*
              * 找到两个字符串中，那个多出来不同的字符
@@ -29,13 +29,25 @@ namespace ForSolveProblem
 
             int forReturn = 0;
 
-            foreach(var sItem in s)
+            foreach (var sItem in s)
                 forReturn ^= sItem;
 
-            foreach(var tItem in t)
+            foreach (var tItem in t)
                 forReturn ^= tItem;
 
             return (char)forReturn;
+        }
+
+        public char FindTheDifference(string s, string t)
+        {
+            var res = (char)0;
+
+            foreach (var sItem in s)
+                res ^= sItem;
+            foreach (var tItem in t)
+                res ^= tItem;
+
+            return res;
         }
     }
 }
