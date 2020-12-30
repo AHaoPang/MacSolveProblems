@@ -23,7 +23,7 @@ namespace ForSolveProblem
             if (temp != false) throw new Exception();
         }
 
-        public bool IsIsomorphic(string s, string t)
+        public bool IsIsomorphic1(string s, string t)
         {
             /*
              * 同构字符串判断
@@ -71,6 +71,28 @@ namespace ForSolveProblem
 
                 sTot[s[i]] = t[i];
                 tTos[t[i]] = s[i];
+            }
+
+            return true;
+        }
+
+        public bool IsIsomorphic(string s, string t)
+        {
+            var visited = new HashSet<char>();
+            var charDic = new Dictionary<char, char>();
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                var sChar = s[i];
+                if (!charDic.ContainsKey(sChar))
+                {
+                    if (visited.Contains(t[i])) return false;
+                    visited.Add(t[i]);
+
+                    charDic[sChar] = t[i];
+                }
+
+                if (charDic[sChar] != t[i]) return false;
             }
 
             return true;

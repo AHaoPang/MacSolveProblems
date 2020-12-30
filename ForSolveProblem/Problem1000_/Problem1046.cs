@@ -8,10 +8,14 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            throw new NotImplementedException();
+            var temp = LastStoneWeight(new[] { 2, 7, 4, 1, 8, 1 });
+            if (temp != 1) throw new Exception();
+
+            temp = LastStoneWeight(new[] { 2, 2 });
+            if (temp != 0) throw new Exception();
         }
 
-        public int LastStoneWeight(int[] stones)
+        public int LastStoneWeight2(int[] stones)
         {
             /*
              * 题目概述：最后一块儿石头的重量
@@ -107,6 +111,57 @@ namespace ForSolveProblem
             }
 
             return lastNum;
+        }
+
+        public int LastStoneWeight(int[] stones)
+        {
+            var sortDic = new SortedDictionary<int, int>();
+            foreach (var item in stones)
+            {
+                if (!sortDic.ContainsKey(item))
+                    sortDic[item] = 0;
+
+                sortDic[item]++;
+            }
+
+            while (sortDic.Count > 0 && (sortDic.Count > 1 || sortDic.Last().Value > 1))
+            {
+                var item = sortDic.Last();
+                var first = item.Key;
+
+                var second = 0;
+                if (item.Value > 1)
+                {
+                    second = item.Key;
+                    sortDic[item.Key] = item.Value - 2;
+
+                    if (sortDic[item.Key] == 0)
+                        sortDic.Remove(item.Key);
+                }
+                else
+                {
+                    sortDic.Remove(item.Key);
+
+                    var anotherItem = sortDic.Last();
+                    second = anotherItem.Key;
+
+                    if (anotherItem.Value > 1)
+                        sortDic[anotherItem.Key] = anotherItem.Value - 1;
+                    else
+                        sortDic.Remove(anotherItem.Key);
+                }
+
+                var sub = first - second;
+                if (sub > 0)
+                {
+                    if (!sortDic.ContainsKey(sub))
+                        sortDic[sub] = 0;
+
+                    sortDic[sub]++;
+                }
+            }
+
+            return sortDic.Count == 0 ? 0 : sortDic.Last().Key;
         }
     }
 }

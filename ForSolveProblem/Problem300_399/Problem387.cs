@@ -17,7 +17,7 @@ namespace ForSolveProblem
             if (temp != 2) throw new Exception();
         }
 
-        public int FirstUniqChar(string s)
+        public int FirstUniqChar1(string s)
         {
             /*
              * 寻找字符串中首次出现的唯一的一个字符
@@ -32,7 +32,7 @@ namespace ForSolveProblem
 
             Dictionary<char, int> charDic = new Dictionary<char, int>();
 
-            for(int i = 0;i < s.Length; i++)
+            for (int i = 0; i < s.Length; i++)
             {
                 if (!charDic.ContainsKey(s[i])) charDic[s[i]] = i;
                 else charDic[s[i]] = -1;
@@ -42,6 +42,20 @@ namespace ForSolveProblem
             foreach (var charItem in charDic) if (charItem.Value != -1 && (forReturn > charItem.Value || forReturn == -2)) forReturn = charItem.Value;
 
             return forReturn == -2 ? -1 : forReturn;
+        }
+
+        public int FirstUniqChar(string s)
+        {
+            var numArr = Enumerable.Repeat(-1, 26).ToArray();
+
+            for (var i = 0; i < s.Length; i++)
+            {
+                var index = s[i] - 'a';
+                numArr[index] = numArr[index] == -1 ? i : -2;
+            }
+
+            var newArr = numArr.Where(i => i != -1 && i != -2).ToArray();
+            return newArr.Length == 0 ? -1 : newArr.Min();
         }
     }
 }

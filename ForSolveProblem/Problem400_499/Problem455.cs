@@ -13,7 +13,7 @@ namespace ForSolveProblem
             throw new NotImplementedException();
         }
 
-        public int FindContentChildren(int[] g, int[] s)
+        public int FindContentChildren1(int[] g, int[] s)
         {
             /*
              * 此种方式，时间复杂度是: O(n)，是线性的！
@@ -37,7 +37,27 @@ namespace ForSolveProblem
             return gIndex;
         }
 
+        public int FindContentChildren(int[] g, int[] s)
+        {
+            var orderG = g.OrderBy(i => i).ToArray();
+            var orderS = s.OrderBy(i => i).ToArray();
 
+            var res = 0;
+            var gi = 0;
+            var si = 0;
+            while (gi < g.Length && si < s.Length)
+            {
+                if (orderG[gi] <= orderS[si])
+                {
+                    res++;
+                    gi++;
+                }
+
+                si++;
+            }
+
+            return res;
+        }
 
         public int FindContentChildren2(int[] g, int[] s)
         {
@@ -60,7 +80,7 @@ namespace ForSolveProblem
 
             while (gIndex < g.Length)
             {
-                while(sIndex < s.Length)
+                while (sIndex < s.Length)
                 {
                     //说明这个孩子可以满足
                     if (nG[gIndex] <= nS[sIndex])

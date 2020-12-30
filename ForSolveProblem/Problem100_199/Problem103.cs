@@ -8,14 +8,6 @@ namespace ForSolveProblem
 {
     public class Problem103 : IProblem
     {
-        public class TreeNode
-        {
-            public int val;
-            public TreeNode left;
-            public TreeNode right;
-            public TreeNode(int x) { val = x; }
-        }
-
         public void RunProblem()
         {
             TreeNode t1 = new TreeNode(3);
@@ -33,7 +25,7 @@ namespace ForSolveProblem
             var temp = ZigzagLevelOrder(t1);
         }
 
-        public IList<IList<int>> ZigzagLevelOrder(TreeNode root)
+        public IList<IList<int>> ZigzagLevelOrder1(TreeNode root)
         {
             /*
              * 锯齿形层次遍历一颗二叉树
@@ -91,6 +83,45 @@ namespace ForSolveProblem
             if (returnTemp.Any()) forReturn.Add(returnTemp);
 
             Recursive(forReturn, line + 1, forOdd, forEven);
+        }
+
+        public IList<IList<int>> ZigzagLevelOrder(TreeNode root)
+        {
+            var res = new List<IList<int>>();
+            var stack = new Stack<TreeNode>();
+            stack.Push(root);
+
+            var leftRight = true;
+            while (stack.Any())
+            {
+                var nextStack = new Stack<TreeNode>();
+                var r = new List<int>();
+                while (stack.Any())
+                {
+                    var curNode = stack.Pop();
+                    if (curNode == null) continue;
+
+                    r.Add(curNode.val);
+
+                    if (leftRight)
+                    {
+                        nextStack.Push(curNode.left);
+                        nextStack.Push(curNode.right);
+                    }
+                    else
+                    {
+                        nextStack.Push(curNode.right);
+                        nextStack.Push(curNode.left);
+                    }
+                }
+
+                if (r.Any()) res.Add(r);
+
+                leftRight = !leftRight;
+                stack = nextStack;
+            }
+
+            return res;
         }
     }
 }

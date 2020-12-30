@@ -3,7 +3,7 @@ namespace ForSolveProblem
 {
     public class Problem746 : IProblem
     {
-        public int MinCostClimbingStairs(int[] cost)
+        public int MinCostClimbingStairs1(int[] cost)
         {
             /*
              * 题目概述：可以走 1 步,也可以走 2 步,从开始走到最后,累计值最少是多少
@@ -36,6 +36,19 @@ namespace ForSolveProblem
 
             temp = MinCostClimbingStairs(new int[] { 1, 100, 1, 1, 1, 100, 1, 1, 100, 1 });
             if (temp != 6) throw new Exception();
+        }
+
+        public int MinCostClimbingStairs(int[] cost)
+        {
+            var dp = new int[cost.Length];
+
+            dp[0] = cost[0];
+            dp[1] = cost[1];
+
+            for (var i = 2; i < cost.Length; i++)
+                dp[i] = Math.Min(dp[i - 1], dp[i - 2]) + cost[i];
+
+            return Math.Min(dp[cost.Length - 1], dp[cost.Length - 2]);
         }
     }
 }
