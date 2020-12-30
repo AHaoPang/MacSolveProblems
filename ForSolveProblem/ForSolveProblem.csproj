@@ -21,7 +21,7 @@
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
         <PackageReference Include="Castle.Core" Version="4.4.1" />
-        <PackageReference Include="Castle.Windsor" Version="5.0.1" />
+        <PackageReference Include="Castle.Windsor" Version="5.1.1" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="CSharp9\" />
