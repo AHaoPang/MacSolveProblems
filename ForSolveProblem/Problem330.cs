@@ -22,7 +22,7 @@ namespace ForSolveProblem
         {
             var res = 0;
 
-            var curValue = 1l;
+            long curValue = 1L;
             var index = 0;
             while (curValue <= n)
             {

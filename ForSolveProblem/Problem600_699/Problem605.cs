@@ -8,7 +8,7 @@ namespace ForSolveProblem
             throw new NotImplementedException();
         }
 
-        public bool CanPlaceFlowers(int[] flowerbed, int n)
+        public bool CanPlaceFlowers1(int[] flowerbed, int n)
         {
             for (var i = 0; i < flowerbed.Length; i++)
             {
@@ -34,6 +34,30 @@ namespace ForSolveProblem
             }
 
             return n == 0;
+        }
+
+        public bool CanPlaceFlowers(int[] flowerbed, int n)
+        {
+            var newArr = new int[flowerbed.Length + 2];
+            Array.Copy(flowerbed, 0, newArr, 1, flowerbed.Length);
+
+            var count = 0;
+            var leftIndex = 0;
+            var rightIndex = 2;
+            for (var i = 1; i <= flowerbed.Length; i++, leftIndex++, rightIndex++)
+            {
+                if (newArr[i] == 1) continue;
+
+                if (newArr[leftIndex] == 0 && newArr[rightIndex] == 0)
+                {
+                    newArr[i] = 1;
+                    count++;
+
+                    if (count == n) break;
+                }
+            }
+
+            return count >= n;
         }
     }
 }
