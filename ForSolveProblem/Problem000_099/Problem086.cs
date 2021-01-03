@@ -8,13 +8,6 @@ namespace ForSolveProblem
 {
     public class Problem086 : IProblem
     {
-        public class ListNode
-        {
-            public int val;
-            public ListNode next;
-            public ListNode(int x) { val = x; }
-        }
-
         public void RunProblem()
         {
             ListNode p1 = new ListNode(1);
@@ -30,10 +23,10 @@ namespace ForSolveProblem
             p4.next = p5;
             p5.next = p6;
 
-            var temp = Partition(null, 1);
+            var temp = Partition(p1, 3);
         }
 
-        public ListNode Partition(ListNode head, int x)
+        public ListNode Partition1(ListNode head, int x)
         {
             /*
              * 依据特定值来分隔链表，但是要保证链表的相对位置不变
@@ -80,6 +73,34 @@ namespace ForSolveProblem
             pNormalHead.next = pMinHead.next;
 
             return pNormalHead.next;
+        }
+
+        public ListNode Partition(ListNode head, int x)
+        {
+            var big = new ListNode(0);
+            var bigHead = big;
+            var small = new ListNode(0);
+            var smallHead = small;
+
+            while (head != null)
+            {
+                if (head.val >= x)
+                {
+                    bigHead.next = head;
+                    bigHead = head;
+                }
+                else
+                {
+                    smallHead.next = head;
+                    smallHead = head;
+                }
+
+                head = head.next;
+            }
+
+            smallHead.next = big.next;
+            bigHead.next = null;
+            return small.next;
         }
     }
 }
