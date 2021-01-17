@@ -17,7 +17,7 @@ namespace ForSolveProblem
             if (temp != 3) throw new Exception();
         }
 
-        public int Fib(int N)
+        public int Fib2(int N)
         {
             if (m_dic.ContainsKey(N)) return m_dic[N];
 
@@ -43,6 +43,20 @@ namespace ForSolveProblem
             }
 
             return prevTwo;
+        }
+
+        public int Fib(int n)
+        {
+            if (n <= 1) return n;
+
+            var resArr = new int[n + 1];
+            resArr[0] = 0;
+            resArr[1] = 1;
+
+            for (var i = 2; i <= n; i++)
+                resArr[i] = resArr[i - 1] + resArr[i - 2];
+
+            return resArr[n];
         }
     }
 }

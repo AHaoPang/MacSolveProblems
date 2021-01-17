@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ForSolveProblem
 {
@@ -7,10 +8,10 @@ namespace ForSolveProblem
     {
         public void RunProblem()
         {
-            throw new NotImplementedException();
+
         }
 
-        public IList<IList<int>> LargeGroupPositions(string S)
+        public IList<IList<int>> LargeGroupPositions1(string S)
         {
             var res = new List<IList<int>>();
             var leftIndex = 0;
@@ -26,6 +27,32 @@ namespace ForSolveProblem
                 }
 
                 rightIndex++;
+            }
+
+            return res;
+        }
+
+        public IList<IList<int>> LargeGroupPositions(string s)
+        {
+            var res = new List<IList<int>>();
+
+            var sb = new StringBuilder(s);
+            sb.Insert(0, '1');
+            sb.Append('1');
+
+            var newS = sb.ToString();
+            var curChar = ' ';
+            var firstIndex = -1;
+            for (var i = 0; i < newS.Length; i++)
+            {
+                if (curChar != newS[i])
+                {
+                    if (i - firstIndex >= 3)
+                        res.Add(new[] { firstIndex - 1, i - 2 });
+
+                    curChar = newS[i];
+                    firstIndex = i;
+                }
             }
 
             return res;
