@@ -19,7 +19,7 @@
       <None Remove="ThreadLearn\**" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
         <PackageReference Include="Castle.Core" Version="4.4.1" />
         <PackageReference Include="Castle.Windsor" Version="5.1.1" />
     </ItemGroup>
